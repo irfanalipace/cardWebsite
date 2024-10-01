@@ -10,7 +10,7 @@ const Header = () => {
         Login
         </Button> 
         <Button variant='contained'>
-            SignUp
+            SignUpfefwewrewr
         </Button>
     </Toolbar>
 </AppBar>
