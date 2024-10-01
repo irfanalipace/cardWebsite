@@ -1,5 +1,3 @@
-
-
 import { Box, Grid, Typography, Divider, styled } from "@mui/material";
 import { Facebook, YouTube } from "@mui/icons-material";
 import React from "react";
