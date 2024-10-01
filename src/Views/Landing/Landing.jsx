@@ -1,15 +1,26 @@
 import React from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Content from "./components/Content/Content";
-import Page from "../../components/page";
+import { Box, styled } from "@mui/material";
+
+const StyledRoot = styled(Box)(({ theme }) => ({
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
+}));
+
+const MainContent = styled(Box)(({ theme }) => ({
+  flex: 1,
+}));
+
 const Landing = () => {
   return (
-    <Page title="Welcome">
+    <StyledRoot>
       <Header />
-      <Content />
+
+      <MainContent></MainContent>
       <Footer />
-    </Page>
+    </StyledRoot>
   );
 };
 
