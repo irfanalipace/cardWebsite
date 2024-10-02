@@ -15,7 +15,7 @@ import {
 import { ShoppingCart, KeyboardArrowDown, Menu } from "@mui/icons-material";
 import React, { useState } from "react";
 import imagelog from "../../../../assets/images/logo.png";
-
+import {Link} from "react-router-dom"
 const HeaderOrderSections = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -82,9 +82,11 @@ const HeaderOrderSections = () => {
       >
        
         <Box display="flex" alignItems="center">
+         <Link to="/">
           <Typography variant="h6">
             <img src={imagelog} alt="logo" style={{ height: "40px" }} />
           </Typography>
+          </Link>
           <Divider
             orientation="vertical"
             flexItem

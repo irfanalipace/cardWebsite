@@ -10,26 +10,29 @@ import {
 import { ShoppingCart, KeyboardArrowDown } from "@mui/icons-material";
 import React from "react";
 import imagelog from "../../../../assets/images/logo.png";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <AppBar
-      position="absolute" // Changed to absolute for overlapping the background image
+      position="absolute"
       sx={{
         top: 0,
         left: 0,
         right: 0,
-        backgroundColor: "transparent", // Set background to transparent
-        boxShadow: "none", // Remove box shadow
+        backgroundColor: "transparent",
+        boxShadow: "none",
         padding: "0 1rem",
-        zIndex: 2, // Ensure it's above the background image
+        zIndex: 2,
       }}
     >
       <Toolbar>
         <Box display="flex" alignItems="center">
-          <Typography variant="h6">
-            <img src={imagelog} alt="logo" style={{ height: "40px" }} />
-          </Typography>
+          <Link to="/">
+            <Typography variant="h6">
+              <img src={imagelog} alt="logo" style={{ height: "40px" }} />
+            </Typography>
+          </Link>
           <Divider
             orientation="vertical"
             flexItem

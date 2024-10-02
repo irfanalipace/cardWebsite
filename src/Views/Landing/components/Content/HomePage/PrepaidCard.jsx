@@ -17,8 +17,10 @@ import orangeImage from "../../../../../assets/images/cardimagegrid3.png";
 import violetCardImage from "../../../../../assets/images/cardimagegrid4.png";
 import pinkImage from "../../../../../assets/images/cardimagegrid5.png";
 import azureImage from "../../../../../assets/images/cardimagegrid6.png";
-
+import { useNavigate } from "react-router-dom";
 const PrepaidCard = () => {
+
+  const navigate=useNavigate();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const handleFilterToggle = () => {
@@ -85,7 +87,9 @@ const PrepaidCard = () => {
       price: 22,
     },
   ];
-
+  const handleNavigate = () => {
+    navigate("/select-payment")
+  }
   return (
     <Box sx={{ padding: "2rem", textAlign: "center" , background:"#3453071A"}}>
       <Typography
@@ -259,6 +263,7 @@ const PrepaidCard = () => {
                         fontFamily: "Poppins",
                         "&:hover": { backgroundColor: "#76c300" },
                       }}
+                         onClick={handleNavigate}
                     >
                       Purchase Now
                     </Button>

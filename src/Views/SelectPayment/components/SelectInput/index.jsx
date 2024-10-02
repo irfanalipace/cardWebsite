@@ -6,15 +6,19 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Button } from "@mui/material";
 import { useTheme } from "@emotion/react";
-
+import { useNavigate } from "react-router-dom";
 const SelectInput = () => {
   const theme = useTheme();
+  const navigate=useNavigate();
   const [age, setAge] = React.useState("");
 
   const handleChange = (event) => {
     setAge(event.target.value);
   };
 
+  const handleNavigate = () => {
+    navigate("/order-confirm")
+  }
   return (
     <Box
       sx={{
@@ -52,6 +56,7 @@ const SelectInput = () => {
           fontFamily: "poppins",
           color: theme.palette.custom.white,
         }}
+        onClick={handleNavigate}
       >
         BUY NOW
       </Button>
