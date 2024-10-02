@@ -21,7 +21,7 @@ const BackgroundImage = styled(Box)(({ theme }) => ({
   top: 0,
   left: 0,
   width: "100%",
-  height: "13%",
+  height: "12%",
   backgroundImage: `url(${heroimage})`,
   backgroundSize: "cover",
   backgroundPosition: "top",
