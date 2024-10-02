@@ -86,14 +86,14 @@ const KeyBenefits = () => {
         }}
       >
         <Typography
-          sx={{ fontWeight: 700, fontSize: "40px", fontFamily: "poppins" }}
+          sx={{ fontWeight: 700, fontSize: {md:"35px", sm:"20px"}, fontFamily: "poppins" }}
         >
           KEY BENEFITS OF OUR FINANCIAL PRODUCTS
         </Typography>
         <Typography
           sx={{
             fontWeight: 500,
-            fontSize: "20px",
+          fontSize: {md:"17px", sm:"15px"},
             fontFamily: "poppins",
             m: 0,
             p: 0,
@@ -106,7 +106,7 @@ const KeyBenefits = () => {
         </Typography>
       </Stack>
 
-      <Box sx={{ py: 5, px: 10 }}>
+      <Box sx={{ py: {md:5, sm:1}, px:{md:10, sm:5} }}>
         <Grid container spacing={3}>
           {features.map((feature, index) => (
             <CustomBenefitCard
