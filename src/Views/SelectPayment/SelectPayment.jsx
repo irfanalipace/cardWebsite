@@ -1,13 +1,14 @@
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import { Box, styled } from "@mui/material";
-import Discount from "./components/Content/Discount";
-import KeyBenefits from "./components/Content/KeyBenefits";
-import HowToBuy from "./components/Content/HowToBuy";
-import HeroSections from "./components/Content/HomePage/HeroSections";
+import Discount from "../Landing/components/Content/Discount";
+import KeyBenefits from "../Landing/components/Content/KeyBenefits";
+import HowToBuy from "../Landing/components/Content/HowToBuy";
+import HeroSections from "../Landing/components/Content/HomePage/HeroSections";
 import heroimage from "../../assets/images/vector.png";
-import OfferSections from "./components/Content/HomePage/OfferSections";
-import PrepaidCard from "./components/Content/HomePage/PrepaidCard";
+import OfferSections from "../Landing/components/Content/HomePage/OfferSections";
+import PrepaidCard from "../Landing/components/Content/HomePage/PrepaidCard";
+import Header from "../Landing/components/Header";
+import Footer from "../Landing/components/Footer";
+import CheckYourCart from "./components/CheckYourCart";
 
 const StyledRoot = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
@@ -34,17 +35,18 @@ const MainContent = styled(Box)(({ theme }) => ({
   paddingTop: "80px",
 }));
 
-const Landing = () => {
+const SelectPayment = () => {
   return (
     <StyledRoot>
       <BackgroundImage />
       <Header />
-
       <MainContent>
         <HeroSections />
         <OfferSections />
         <PrepaidCard />
         <Discount />
+        <CheckYourCart />
+
         <KeyBenefits />
         <HowToBuy />
       </MainContent>
@@ -53,4 +55,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default SelectPayment;
