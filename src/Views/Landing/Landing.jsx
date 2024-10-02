@@ -29,7 +29,7 @@ const BackgroundImage = styled(Box)(({ theme }) => ({
 const MainContent = styled(Box)(({ theme }) => ({
   flex: 1,
   zIndex: 1,
-  paddingTop: "80px", 
+  paddingTop: "80px",
 }));
 
 const Landing = () => {
@@ -37,10 +37,11 @@ const Landing = () => {
     <StyledRoot>
       <BackgroundImage />
       <Header />
+
       <MainContent>
         <HeroSections />
         <OfferSections />
-      <PrepaidCard />
+        <PrepaidCard />
       </MainContent>
       <Footer />
     </StyledRoot>

@@ -103,75 +103,55 @@ const PrepaidCard = () => {
         <br />
         consectetur lorem ipsum dolor sit amet consectetur.
       </Typography>
-      <Box sx={{ padding: "2rem" }}>
+      <Box sx={{ paddingBottom: "1rem" }}>
       <Grid container spacing={2} justifyContent="flex-end" alignItems="center">
-        
-     
-
-   
-        {isFilterOpen && (
-          <>
-          
-            <Grid item>
-              <Select fullWidth defaultValue="" displayEmpty>
-                <MenuItem value="" disabled>
-                  Select MasterCard
-                </MenuItem>
-                <MenuItem value={1}>MasterCard 1</MenuItem>
-                <MenuItem value={2}>MasterCard 2</MenuItem>
-                <MenuItem value={3}>MasterCard 3</MenuItem>
-              </Select>
-            </Grid>
-
-           
-            <Grid item>
-              <TextField
-                fullWidth
-                placeholder="Please Type Value"
-                variant="outlined"
-              />
-            </Grid>
-
-            <Grid item>
-              <Select fullWidth defaultValue="" displayEmpty>
-                <MenuItem value="" disabled>
-                  Select Currency
-                </MenuItem>
-                <MenuItem value="USD">USD</MenuItem>
-                <MenuItem value="EUR">EUR</MenuItem>
-                <MenuItem value="PKR">PKR</MenuItem>
-              </Select>
-            </Grid>
-
-           
-            <Grid item>
-              <Button
-                variant="outlined"
-                onClick={handleCancel}
-                sx={{ marginRight: "1rem" }}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: "#007FFF", color: "white" }}
-              >
-                Apply Filter
-              </Button>
-            </Grid>
-          </>
-        )}
-
-           <Grid item>
-          <Button
-            variant="contained"
-            onClick={handleFilterToggle}
-            sx={{ backgroundColor: "#007FFF", color: "white" }}
-          >
-            Apply Filterd
-          </Button>
-        </Grid>
+      {isFilterOpen && (
+        <>
+          <Grid item xs={3}>
+            <Select fullWidth defaultValue="" displayEmpty>
+              <MenuItem value="" disabled>
+                Select MasterCard
+              </MenuItem>
+              <MenuItem value={1}>MasterCard 1</MenuItem>
+              <MenuItem value={2}>MasterCard 2</MenuItem>
+              <MenuItem value={3}>MasterCard 3</MenuItem>
+            </Select>
+          </Grid>
+    
+          <Grid item xs={3}>
+            <TextField fullWidth placeholder="Please Type Value" variant="outlined" />
+          </Grid>
+    
+          <Grid item xs={3}>
+            <Select fullWidth defaultValue="" displayEmpty>
+              <MenuItem value="" disabled>
+                Select Currency
+              </MenuItem>
+              <MenuItem value="USD">USD</MenuItem>
+              <MenuItem value="EUR">EUR</MenuItem>
+              <MenuItem value="PKR">PKR</MenuItem>
+            </Select>
+          </Grid>
+    
+          <Grid item xs={1.5}>
+            <Button variant="outlined" onClick={handleCancel} sx={{ marginRight: "1rem", padding:"12px", width:'150px' }}>
+              Cancel
+            </Button>
+          </Grid>
+        </>
+      )}
+    
+      <Grid item xs={1.5}>
+        <Button
+          variant="contained"
+          onClick={handleFilterToggle}
+          sx={{ backgroundColor: "#007FFF", color: "white",padding:"12px", width:'150px' }}
+        >
+          Apply Filter
+        </Button>
       </Grid>
+    </Grid>
+    
     </Box>
        <Grid container spacing={4} justifyContent="center">
         {cardData.map((card) => {
