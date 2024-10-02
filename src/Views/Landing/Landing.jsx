@@ -8,6 +8,7 @@ import HeroSections from "./components/Content/HomePage/HeroSections";
 import heroimage from "../../assets/images/vector.png";
 import OfferSections from "./components/Content/HomePage/OfferSections";
 import PrepaidCard from "./components/Content/HomePage/PrepaidCard";
+import ConfirmOrders from "./components/Content/OrderPages/ConfirmOrders";
 
 const StyledRoot = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
@@ -48,6 +49,7 @@ const Landing = () => {
         <KeyBenefits />
         <HowToBuy />
       </MainContent>
+     
       <Footer />
     </StyledRoot>
   );
