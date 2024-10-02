@@ -1,5 +1,6 @@
 import { Box, Grid, Typography, Divider, styled } from "@mui/material";
 import { Facebook, YouTube } from "@mui/icons-material";
+import logoimage from "../../../../assets/images/logo.png";
 import React from "react";
 
 const StyledFooter = styled(Box)(({ theme }) => ({
@@ -16,7 +17,7 @@ const Footer = () => {
     <StyledFooter>
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6} md={4}>
-          <Typography variant="h6">Your Logo</Typography>
+         <img src={logoimage} alt="img" />
           <Typography variant="body2">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum
             dolor sit amet, consectetur adipiscing elit.
@@ -43,15 +44,16 @@ const Footer = () => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={3}>
-          <Typography variant="h6">About Virtual Credit Card</Typography>
+          <Typography variant="h6">About VCC</Typography>
           <Box mt={2} display="flex" flexDirection="column" gap={1}>
             <Typography variant="body2">Where to use Ezzocard VCCs</Typography>
+            <Typography variant="body2">Where to Use Ezzocard VCCs</Typography>
             <Typography variant="body2">Blog</Typography>
           </Box>
         </Grid>
 
         <Grid item xs={12} sm={6} md={3}>
-          <Box mt={2} display="flex" flexDirection="column" gap={1}>
+          <Box mt={0} display="flex" flexDirection="column" gap={1}>
             <Typography variant="h6">Contact Us</Typography>
             <Typography variant="body2">+92-343-6683-499</Typography>
             <Typography variant="body2">abc@gmail.com</Typography>

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Typography,
   Box,
   Button,
-  TextField, Select,
-    MenuItem,
+  TextField,
+  Select,
+  MenuItem,
   Card,
   CardContent,
   CardMedia,
@@ -18,19 +19,19 @@ import violetCardImage from "../../../../../assets/images/cardimagegrid4.png";
 import pinkImage from "../../../../../assets/images/cardimagegrid5.png";
 import azureImage from "../../../../../assets/images/cardimagegrid6.png";
 import { useNavigate } from "react-router-dom";
-const PrepaidCard = () => {
 
-  const navigate=useNavigate();
-    const [isFilterOpen, setIsFilterOpen] = useState(false);
+const PrepaidCard = () => {
+  const navigate = useNavigate();
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const handleFilterToggle = () => {
     setIsFilterOpen((prev) => !prev);
   };
 
- 
   const handleCancel = () => {
     setIsFilterOpen(false);
   };
+
   const cardData = [
     {
       id: 1,
@@ -87,20 +88,26 @@ const PrepaidCard = () => {
       price: 22,
     },
   ];
+
   const handleNavigate = () => {
-    navigate("/select-payment")
-  }
+    navigate("/select-payment");
+  };
+
   return (
-    <Box sx={{ padding: "2rem", textAlign: "center" , background:"#3453071A"}}>
+    <Box sx={{ padding: { xs: "1rem", sm: "2rem" }, textAlign: "center", background: "#3453071A" }}>
       <Typography
-        variant="h4"
-        sx={{ fontWeight: "bold", marginBottom: "1rem", fontFamily: "Poppins" }}
+        sx={{
+          fontWeight: "bold",
+          marginBottom: "1rem",
+          fontFamily: "Poppins",
+          fontSize: { xs: "24px", sm: "28px" },
+        }}
       >
         VIRTUAL PREPAID CREDIT HOURS
       </Typography>
       <Typography
         variant="body1"
-        sx={{ marginBottom: "2rem", fontFamily: "Poppins" }}
+        sx={{ marginBottom: "2rem", fontFamily: "Poppins", fontSize: { xs: "14px", sm: "16px" } }}
       >
         Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet
         consectetur lorem ipsum dolor sit amet consectetur.
@@ -108,58 +115,72 @@ const PrepaidCard = () => {
         consectetur lorem ipsum dolor sit amet consectetur.
       </Typography>
       <Box sx={{ paddingBottom: "1rem" }}>
-      <Grid container spacing={2} justifyContent="flex-end" alignItems="center">
-      {isFilterOpen && (
-        <>
-          <Grid item xs={3}>
-            <Select fullWidth defaultValue="" displayEmpty>
-              <MenuItem value="" disabled>
-                Select MasterCard
-              </MenuItem>
-              <MenuItem value={1}>MasterCard 1</MenuItem>
-              <MenuItem value={2}>MasterCard 2</MenuItem>
-              <MenuItem value={3}>MasterCard 3</MenuItem>
-            </Select>
-          </Grid>
-    
-          <Grid item xs={3}>
-            <TextField fullWidth placeholder="Please Type Value" variant="outlined" />
-          </Grid>
-    
-          <Grid item xs={3}>
-            <Select fullWidth defaultValue="" displayEmpty>
-              <MenuItem value="" disabled>
-                Select Currency
-              </MenuItem>
-              <MenuItem value="USD">USD</MenuItem>
-              <MenuItem value="EUR">EUR</MenuItem>
-              <MenuItem value="PKR">PKR</MenuItem>
-            </Select>
-          </Grid>
-    
-          <Grid item xs={1.5}>
-            <Button variant="outlined" onClick={handleCancel} sx={{ marginRight: "1rem", padding:"12px", width:'150px' }}>
-              Cancel
+        <Grid container spacing={2} justifyContent="flex-end" alignItems="center">
+          {isFilterOpen && (
+            <>
+              <Grid item xs={6} sm={3}>
+                <Select fullWidth defaultValue="" displayEmpty>
+                  <MenuItem value="" disabled>
+                    Select MasterCard
+                  </MenuItem>
+                  <MenuItem value={1}>MasterCard 1</MenuItem>
+                  <MenuItem value={2}>MasterCard 2</MenuItem>
+                  <MenuItem value={3}>MasterCard 3</MenuItem>
+                </Select>
+              </Grid>
+
+              <Grid item xs={6} sm={3}>
+                <TextField fullWidth placeholder="Please Type Value" variant="outlined" />
+              </Grid>
+
+              <Grid item xs={6} sm={3}>
+                <Select fullWidth defaultValue="" displayEmpty>
+                  <MenuItem value="" disabled>
+                    Select Currency
+                  </MenuItem>
+                  <MenuItem value="USD">USD</MenuItem>
+                  <MenuItem value="EUR">EUR</MenuItem>
+                  <MenuItem value="PKR">PKR</MenuItem>
+                </Select>
+              </Grid>
+
+              <Grid item xs={6} sm={1.5}>
+                <Button
+                  variant="outlined"
+                  onClick={handleCancel}
+                  sx={{
+                    marginRight: "1rem",
+                    padding: "12px",
+                    width: "100%",
+                    borderColor: "#8AE700",
+                    color: "black",
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+            </>
+          )}
+
+          <Grid item xs={6} sm={1.5}>
+            <Button
+              variant="contained"
+              onClick={handleFilterToggle}
+              sx={{
+                backgroundColor: "#8AE700",
+                color: "black",
+                padding: "12px",
+                width: "100%",
+              }}
+            >
+              Filter
             </Button>
           </Grid>
-        </>
-      )}
-    
-      <Grid item xs={1.5}>
-        <Button
-          variant="contained"
-          onClick={handleFilterToggle}
-          sx={{ backgroundColor: "#007FFF", color: "white",padding:"12px", width:'150px' }}
-        >
-          Apply Filter
-        </Button>
-      </Grid>
-    </Grid>
-    
-    </Box>
-       <Grid container spacing={4} justifyContent="center">
+        </Grid>
+      </Box>
+      <Grid container spacing={2} justifyContent="center">
         {cardData.map((card) => {
-          const [quantity, setQuantity] = useState(1); 
+          const [quantity, setQuantity] = useState(1);
 
           const increment = () => {
             setQuantity((prev) => prev + 1);
@@ -196,6 +217,7 @@ const PrepaidCard = () => {
                     padding: "0.5rem",
                     borderBottomLeftRadius: "8px",
                     fontFamily: "Poppins",
+                    fontSize: { xs: "12px", sm: "14px" },
                   }}
                 >
                   {card.title}
@@ -208,7 +230,7 @@ const PrepaidCard = () => {
                   >
                     {card.title}
                   </Typography>
-                  <Typography variant="body2" sx={{ fontFamily: "Poppins" }}>
+                  <Typography variant="body2" sx={{ fontFamily: "Poppins", fontSize: { xs: "12px", sm: "14px" } }}>
                     {card.description}
                   </Typography>
 
@@ -224,7 +246,7 @@ const PrepaidCard = () => {
                       Quantity:
                     </Typography>
                     <Box>
-                      <Button onClick={decrement} variant="outlined">
+                      <Button onClick={decrement} variant="outlined" size="small">
                         -
                       </Button>
                       <Typography
@@ -233,7 +255,7 @@ const PrepaidCard = () => {
                       >
                         {quantity}
                       </Typography>
-                      <Button onClick={increment} variant="outlined">
+                      <Button onClick={increment} variant="outlined" size="small">
                         +
                       </Button>
                     </Box>
@@ -263,7 +285,7 @@ const PrepaidCard = () => {
                         fontFamily: "Poppins",
                         "&:hover": { backgroundColor: "#76c300" },
                       }}
-                         onClick={handleNavigate}
+                      onClick={handleNavigate}
                     >
                       Purchase Now
                     </Button>
