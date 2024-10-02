@@ -42,14 +42,14 @@ const HowToBuy = () => {
         }}
       >
         <Typography
-          sx={{ fontWeight: 700, fontSize: "40px", fontFamily: "poppins" }}
+          sx={{ fontWeight: 700, fontSize: {md:'35px', sm:"20px"}, fontFamily: "poppins" }}
         >
           HOW TO BUY
         </Typography>
         <Typography
           sx={{
             fontWeight: 500,
-            fontSize: "20px",
+           fontSize: {md:'17px', sm:"14px"},
             fontFamily: "poppins",
             m: 0,
             p: 0,
