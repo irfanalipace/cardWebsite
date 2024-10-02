@@ -1,12 +1,10 @@
 import React from "react";
 import { Box, Typography, Button, TextField } from "@mui/material";
-import Footer from "../../Footer";
 
 const PayOrder = () => {
-  const btcAddress = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"; // Example BTC Address
-  const btcAmount = "0.005 BTC"; // Example BTC Amount
+  const btcAddress = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
+  const btcAmount = "0.005 BTC";
 
-  // Function to copy text to clipboard
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
     alert(`Copied to clipboard: ${text}`);
