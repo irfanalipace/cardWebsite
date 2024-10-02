@@ -1,8 +1,8 @@
-import Header from "./Header";
 import { Box, styled } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import MasterCardImageBackground from "./MasterCardImageBackground";
 import Footer from "../../Views/Landing/components/Footer";
+import HeaderOrderSections from "../../Views/Landing/components/Header/HeaderOrderSections";
 
 const StyledRoot = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
@@ -20,7 +20,7 @@ const MainContent = styled(Box)(({ theme }) => ({
 const InformationLayout = () => {
   return (
     <StyledRoot>
-      <Header />
+      <HeaderOrderSections />
       <MainContent>
         <MasterCardImageBackground />
         <Outlet />
