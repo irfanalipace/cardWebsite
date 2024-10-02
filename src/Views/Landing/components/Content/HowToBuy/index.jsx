@@ -1,7 +1,6 @@
 import { useTheme } from "@emotion/react";
 import {
   Stack,
-  Grid,
   Box,
   Accordion,
   AccordionSummary,
@@ -10,8 +9,6 @@ import {
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
 const HowToBuy = () => {
   const theme = useTheme();
 
@@ -25,11 +22,12 @@ const HowToBuy = () => {
   return (
     <Stack
       sx={{
-        backgroundColor: theme.palette.custom.KeyBenefitsBackground,
+        backgroundColor: theme.palette.custom.white,
         direction: "column",
         justifyContent: "center",
         alignItems: "center",
         py: 5,
+        gap: 3,
       }}
     >
       <Stack
@@ -63,14 +61,14 @@ const HowToBuy = () => {
         </Typography>
       </Stack>
 
-      <Box sx={{ width: "70%", mx: "auto", mt: 4 }}>
+      <Box sx={{ width: "90%", mx: "auto", mt: 4 }}>
         {faqItems.map((item, index) => (
           <Accordion
             key={index}
             sx={{
-              backgroundColor: "#A2FE1912",
-              border: "1px solid rgba(0, 0, 0, 0.12)", // Border for each accordion
+              backgroundColor: theme.palette.custom.howToBuyAccordion,
               mb: 2.5,
+              boxShadow: "none",
 
               "&:before": {
                 display: "none", // Remove default shadow line above accordion
@@ -79,7 +77,17 @@ const HowToBuy = () => {
           >
             <AccordionSummary
               expandIcon={
-                <AddIcon sx={{ color: "#39e600", fontSize: "28px" }} />
+                <AddIcon
+                  sx={{
+                    backgroundColor: theme.palette.custom.green,
+                    color: "#fff",
+                    fontSize: "28px",
+                    width: "28px",
+                    height: "28px",
+                    borderRadius: "50%",
+                    p: 0.3,
+                  }}
+                />
               }
               sx={{
                 "& .MuiAccordionSummary-content": {

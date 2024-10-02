@@ -20,6 +20,7 @@ export const theme = createTheme({
       benefitDescription: "#575757",
       benefitCardDescription: "#8B8B8B",
       benefitCardImg: " #8AE700",
+      howToBuyAccordion:"#EAF0EF"
     },
   },
 });
