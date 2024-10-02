@@ -6,13 +6,61 @@ import {
   Box,
   IconButton,
   Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
 } from "@mui/material";
-import { ShoppingCart, KeyboardArrowDown } from "@mui/icons-material";
-import React from "react";
+import { ShoppingCart, KeyboardArrowDown, Menu } from "@mui/icons-material";
+import React, { useState } from "react";
 import imagelog from "../../../../assets/images/logo.png";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const drawer = (
+    <Box sx={{ width: 250 }} onClick={handleDrawerToggle}>
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemText primary="Prepaid Cards" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemText primary="Go to Gift Cards" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemText primary="Registration Balance" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemText primary="How to Pay" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemText primary="More" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemText primary="Buy Prepaid Cards" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </Box>
+  );
+
   return (
     <AppBar
       position="absolute"
@@ -26,7 +74,13 @@ const Header = () => {
         zIndex: 2,
       }}
     >
-      <Toolbar>
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: { xs: "wrap", md: "nowrap" },
+        }}
+      >
         <Box display="flex" alignItems="center">
           <Link to="/">
             <Typography variant="h6">
@@ -36,13 +90,42 @@ const Header = () => {
           <Divider
             orientation="vertical"
             flexItem
-            sx={{ height: "40px", margin: "0 16px" }}
+            sx={{ height: "40px", margin: "0 16px",  color: "white" }}
           />
         </Box>
 
-        <Box display="flex" alignItems="center" gap={2} sx={{ flexGrow: 1 }}>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ display: { xs: "flex", md: "none" },  color: "white" }}
+          onClick={handleDrawerToggle}
+        >
+          <Menu />
+        </IconButton>
+
+        <Drawer
+          anchor="left"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+          }}
+        >
+          {drawer}
+        </Drawer>
+
+        <Box
+          display={{ xs: "none", md: "flex" }}
+          alignItems="center"
+          gap={2}
+          sx={{
+            flexGrow: 1,
+            justifyContent: "flex-start",
+          }}
+        >
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins" }}>
+            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
               Prepaid Cards
             </Typography>
             <KeyboardArrowDown />
@@ -51,7 +134,7 @@ const Header = () => {
             variant="contained"
             sx={{
               backgroundColor: "#8AE700",
-              color: "#000",
+              color: "white",
               fontFamily: "Poppins",
               "&:hover": { backgroundColor: "#76c300" },
             }}
@@ -60,44 +143,51 @@ const Header = () => {
           </Button>
         </Box>
 
-        <Box display="flex" alignItems="center" gap={2}>
+        <Box
+          display={{ xs: "none", md: "flex" }}
+          alignItems="center"
+          gap={2}
+          sx={{
+            justifyContent: "flex-end",
+          }}
+        >
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins" }}>
+            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
               Registration Balance
             </Typography>
-            <KeyboardArrowDown />
+            <KeyboardArrowDown style={{  color: "white" }} />
           </Box>
 
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins" }}>
+            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
               How to Pay
             </Typography>
-            <KeyboardArrowDown />
+            <KeyboardArrowDown style={{  color: "white" }} />
           </Box>
 
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins" }}>
+            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
               More
             </Typography>
-            <KeyboardArrowDown />
+            <KeyboardArrowDown style={{  color: "white" }} />
           </Box>
 
-          <IconButton edge="end" color="inherit">
-            <ShoppingCart />
+          <IconButton edge="end" color="inherit" style={{  color: "white" }}>
+            <ShoppingCart style={{  color: "white" }} />
           </IconButton>
 
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins" }}>
+            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
               $90.90
             </Typography>
-            <KeyboardArrowDown />
+            <KeyboardArrowDown style={{  color: "white" }} />
           </Box>
 
           <Button
             variant="contained"
             sx={{
               backgroundColor: "#8AE700",
-              color: "#000",
+              color: "white",
               fontFamily: "Poppins",
               "&:hover": { backgroundColor: "#76c300" },
             }}

@@ -9,7 +9,7 @@ import { useTheme } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 const SelectInput = () => {
   const theme = useTheme();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [age, setAge] = React.useState("");
 
   const handleChange = (event) => {
@@ -17,8 +17,8 @@ const SelectInput = () => {
   };
 
   const handleNavigate = () => {
-    navigate("/order-confirm")
-  }
+    navigate("/order-confirm");
+  };
   return (
     <Box
       sx={{

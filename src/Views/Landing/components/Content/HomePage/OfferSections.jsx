@@ -72,16 +72,27 @@ const OfferSections = () => {
     <Box sx={{ padding: " 2rem", textAlign: "center" }}>
       <Typography
         variant="h4"
-        sx={{ fontWeight: "bold", marginBottom: "1rem", fontFamily: "Poppins" }}
+        sx={{
+          fontWeight: "bold",
+          marginBottom: "1rem",
+          fontFamily: "Poppins",
+          color: { xs: "white", md: "black" },
+        }}
       >
         WHAT WE OFFER
       </Typography>
       <Typography
         variant="body1"
-        sx={{ marginBottom: "2rem", fontFamily: "Poppins" }}
+        sx={{
+          marginBottom: "2rem",
+          fontFamily: "Poppins",
+          color: { xs: "white", md: "inherit" },
+        }}
       >
         Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet
-        consectetur lorem ipsum dolor sit amet consectetur.<br></br>consectetur lorem ipsum dolor sit amet consectetur.
+        consectetur lorem ipsum dolor sit amet consectetur.
+        <br />
+        consectetur lorem ipsum dolor sit amet consectetur.
       </Typography>
 
       <Grid container spacing={4} justifyContent="center">
