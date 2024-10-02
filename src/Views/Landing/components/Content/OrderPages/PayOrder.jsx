@@ -22,7 +22,7 @@ const PayOrder = () => {
         Step 3: Please send your money
       </Typography>
       <Typography variant="body1" paragraph>
-        You have 30 minutes to start the payment process 
+        You have 30 minutes to start the payment process
         <br />
         Do not reload this page.
       </Typography>

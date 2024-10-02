@@ -35,7 +35,7 @@ const ConfirmOrderCards = () => {
         Step 2: Confirm Your Order
       </Typography>
       <Typography variant="body1" paragraph>
-      Your cards have been successfully booked You have 3 minutes to confirm your order and <br></br> proceed to the payment process (Step 3) Do not reload this page.
+      Your cards have been successfully booked You have 3 minutes to confirm your order and <br></br> proceed to the payment process (Step 3)Do not reload this page.
       </Typography>
       <StyledCard elevation={2}>
         <Box display="flex" justifyContent="space-between" mb={2}>

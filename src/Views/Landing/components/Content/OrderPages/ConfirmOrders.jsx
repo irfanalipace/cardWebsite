@@ -6,6 +6,7 @@ import HeaderOrderSections from "../../Header/HeaderOrderSections";
 import ConfirmOrderCards from "./ConfirmOrderCards";
 import Footer from "../../Footer";
 import PayOrder from "./PayOrder";
+import RecviedOrder from "./RecviedOrder";
 const StyledTab = styled(Tab)(({ theme, selected, completed }) => ({
   minWidth: 100,
   height: 50,
@@ -132,12 +133,16 @@ const ConfirmOrders = () => {
                 <ConfirmOrderCards />
               </Box>
             )}
-            {currentStep === 2 &&  
+            {currentStep === 2 && (
               <Box>
-              <PayOrder />
-            </Box>
-          }
-            {currentStep === 3 && <Typography>Order Received</Typography>}
+                <PayOrder />
+              </Box>
+            )}
+            {currentStep === 3 && (
+              <Box>
+                <RecviedOrder />
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>

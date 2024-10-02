@@ -49,7 +49,7 @@ const Landing = () => {
         <KeyBenefits />
         <HowToBuy />
       </MainContent>
-     
+
       <Footer />
     </StyledRoot>
   );
