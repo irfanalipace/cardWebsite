@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Typography,
   Box,
   Button,
+  TextField, Select,
+    MenuItem,
   Card,
   CardContent,
   CardMedia,
@@ -17,6 +19,16 @@ import pinkImage from "../../../../../assets/images/cardimagegrid5.png";
 import azureImage from "../../../../../assets/images/cardimagegrid6.png";
 
 const PrepaidCard = () => {
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const handleFilterToggle = () => {
+    setIsFilterOpen((prev) => !prev);
+  };
+
+ 
+  const handleCancel = () => {
+    setIsFilterOpen(false);
+  };
   const cardData = [
     {
       id: 1,
@@ -75,7 +87,7 @@ const PrepaidCard = () => {
   ];
 
   return (
-    <Box sx={{ padding: "2rem", textAlign: "center" }}>
+    <Box sx={{ padding: "2rem", textAlign: "center" , background:"#3453071A"}}>
       <Typography
         variant="h4"
         sx={{ fontWeight: "bold", marginBottom: "1rem", fontFamily: "Poppins" }}
@@ -91,10 +103,79 @@ const PrepaidCard = () => {
         <br />
         consectetur lorem ipsum dolor sit amet consectetur.
       </Typography>
+      <Box sx={{ padding: "2rem" }}>
+      <Grid container spacing={2} justifyContent="flex-end" alignItems="center">
+        
+     
 
-      <Grid container spacing={4} justifyContent="center">
+   
+        {isFilterOpen && (
+          <>
+          
+            <Grid item>
+              <Select fullWidth defaultValue="" displayEmpty>
+                <MenuItem value="" disabled>
+                  Select MasterCard
+                </MenuItem>
+                <MenuItem value={1}>MasterCard 1</MenuItem>
+                <MenuItem value={2}>MasterCard 2</MenuItem>
+                <MenuItem value={3}>MasterCard 3</MenuItem>
+              </Select>
+            </Grid>
+
+           
+            <Grid item>
+              <TextField
+                fullWidth
+                placeholder="Please Type Value"
+                variant="outlined"
+              />
+            </Grid>
+
+            <Grid item>
+              <Select fullWidth defaultValue="" displayEmpty>
+                <MenuItem value="" disabled>
+                  Select Currency
+                </MenuItem>
+                <MenuItem value="USD">USD</MenuItem>
+                <MenuItem value="EUR">EUR</MenuItem>
+                <MenuItem value="PKR">PKR</MenuItem>
+              </Select>
+            </Grid>
+
+           
+            <Grid item>
+              <Button
+                variant="outlined"
+                onClick={handleCancel}
+                sx={{ marginRight: "1rem" }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: "#007FFF", color: "white" }}
+              >
+                Apply Filter
+              </Button>
+            </Grid>
+          </>
+        )}
+
+           <Grid item>
+          <Button
+            variant="contained"
+            onClick={handleFilterToggle}
+            sx={{ backgroundColor: "#007FFF", color: "white" }}
+          >
+            Apply Filterd
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
+       <Grid container spacing={4} justifyContent="center">
         {cardData.map((card) => {
-          const [quantity, setQuantity] = useState(1); // State for quantity
+          const [quantity, setQuantity] = useState(1); 
 
           const increment = () => {
             setQuantity((prev) => prev + 1);
