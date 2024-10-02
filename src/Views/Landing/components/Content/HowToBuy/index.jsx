@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
+
 const HowToBuy = () => {
   const theme = useTheme();
 

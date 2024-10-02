@@ -20,7 +20,8 @@ const ContactUs = () => {
           sx={{
             color: theme.palette.custom.black2,
             fontWeight: 700,
-            fontSize: "32px",
+            fontSize: { xs: "16px", md: "32px" },
+            textAlign: { xs: "center" },
           }}
         >
           Get in Touch
@@ -29,7 +30,8 @@ const ContactUs = () => {
           sx={{
             color: theme.palette.custom.getInTouchDescription,
             fontWeight: 400,
-            fontSize: "20px",
+            fontSize: { xs: "13px", md: "20px" },
+            textAlign: { xs: "center" },
           }}
         >
           Lorem ipsum dolor sit amet consectetur. At consectetur duis enim
@@ -39,9 +41,12 @@ const ContactUs = () => {
       <Box
         sx={{
           display: "flex",
+          flexDirection: { xs: "column", md: "row" },
           alignItems: "center",
           backgroundColor: theme.palette.custom.white,
           p: 2,
+          gap: 2,
+          borderRadius: "10px",
         }}
       >
         <ContactInformation />

@@ -14,7 +14,7 @@ const StyledRoot = styled(Box)(({ theme }) => ({
 const MainContent = styled(Box)(({ theme }) => ({
   flex: 1,
   zIndex: 1,
-  paddingTop: "100px",
+  marginTop: "100px",
 }));
 
 const InformationLayout = () => {

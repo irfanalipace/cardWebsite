@@ -25,10 +25,10 @@ const Header = () => {
         right: 0,
         backgroundColor: theme.palette.custom.white, // Set background to transparent
         boxShadow: "none", // Remove box shadow
-        padding: "0 1rem",
+        padding: { xs: "0 0.5rem", md: "0 1rem" },
         zIndex: 2, // Ensure it's above the background image
         color: theme.palette.custom.black,
-        height: "100px",
+        height: { xs: "80px", md: "100px" },
         display: "flex",
         justifyContent: "center",
       }}
@@ -45,9 +45,23 @@ const Header = () => {
           />
         </Box>
 
-        <Box display="flex" alignItems="center" gap={2} sx={{ flexGrow: 1 }}>
+        <Box
+          display="flex"
+          alignItems="center"
+          gap={2}
+          sx={{
+            flexGrow: 1,
+            justifyContent: { xs: "center", md: "flex-start" },
+          }}
+        >
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins" }}>
+            <Typography
+              variant="body1"
+              sx={{
+                fontFamily: "Poppins",
+                fontSize: { xs: "14px", md: "16px" },
+              }}
+            >
               Prepaid Cards
             </Typography>
             <KeyboardArrowDown />
@@ -61,13 +75,24 @@ const Header = () => {
               "&:hover": { backgroundColor: "#76c300" },
               textTransform: "none",
               boxShadow: "none",
+              fontSize: { xs: "12px", lg: "14px" },
+              textWrap: "nowrap",
             }}
           >
             Go to Gift Cards
           </Button>
         </Box>
 
-        <Box display="flex" alignItems="center" gap={2}>
+        <Box
+          display="flex"
+          alignItems="center"
+          gap={2}
+          sx={{
+            flexDirection: { xs: "column", md: "row" }, // Stack vertically on smaller screens
+            justifyContent: "center",
+            textAlign: { xs: "center", md: "left" }, // Center text on smaller screens
+          }}
+        >
           <Box display="flex" alignItems="center">
             <Typography variant="body1" sx={{ fontFamily: "Poppins" }}>
               Registration Balance
@@ -109,6 +134,8 @@ const Header = () => {
               "&:hover": { backgroundColor: "#76c300" },
               textTransform: "none",
               boxShadow: "none",
+              fontSize: { xs: "12px", lg: "14px" },
+              textWrap: "nowrap",
             }}
           >
             Buy Prepaid Cards
