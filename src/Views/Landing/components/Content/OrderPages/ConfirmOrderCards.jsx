@@ -19,7 +19,8 @@ const StyledCard = styled(Card)(({ theme }) => ({
   fontFamily: "Poppins, sans-serif",
 }));
 
-const ConfirmOrderCards = () => {
+const ConfirmOrderCards = ({onPayWithBtc}) => {
+  
   return (
     <Box
       sx={{
@@ -121,6 +122,7 @@ const ConfirmOrderCards = () => {
             flex: 1,
             fontFamily: "Poppins, sans-serif",
           }} 
+          onClick={onPayWithBtc}
         >
           Pay with BTC
         </Button>

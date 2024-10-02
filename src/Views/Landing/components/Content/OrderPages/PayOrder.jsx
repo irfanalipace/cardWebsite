@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Button, TextField } from "@mui/material";
 
-const PayOrder = () => {
+const PayOrder = ({onPayWithBtc}) => {
   const btcAddress = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
   const btcAmount = "0.005 BTC";
 
@@ -138,6 +138,7 @@ const PayOrder = () => {
             flex: 1,
             fontFamily: "Poppins, sans-serif",
           }}
+          onClick={onPayWithBtc}
         >
           Paid
         </Button>
