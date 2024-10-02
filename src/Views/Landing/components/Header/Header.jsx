@@ -7,22 +7,25 @@ import {
   IconButton,
   Divider,
 } from "@mui/material";
-import {
-  ShoppingCart,
-  Menu as MenuIcon,
-  KeyboardArrowDown,
-} from "@mui/icons-material";
+import { ShoppingCart, KeyboardArrowDown } from "@mui/icons-material";
 import React from "react";
 import imagelog from "../../../../assets/images/logo.png";
 
 const Header = () => {
   return (
     <AppBar
-      position="static"
-      sx={{ backgroundColor: "#fff", color: "#000", padding: "0 1rem" }}
+      position="absolute" // Changed to absolute for overlapping the background image
+      sx={{
+        top: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: "transparent", // Set background to transparent
+        boxShadow: "none", // Remove box shadow
+        padding: "0 1rem",
+        zIndex: 2, // Ensure it's above the background image
+      }}
     >
       <Toolbar>
-        {/* Logo and Divider */}
         <Box display="flex" alignItems="center">
           <Typography variant="h6">
             <img src={imagelog} alt="logo" style={{ height: "40px" }} />
@@ -34,10 +37,9 @@ const Header = () => {
           />
         </Box>
 
-        {/* Menu Items */}
         <Box display="flex" alignItems="center" gap={2} sx={{ flexGrow: 1 }}>
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: 'Poppins' }}>
+            <Typography variant="body1" sx={{ fontFamily: "Poppins" }}>
               Prepaid Cards
             </Typography>
             <KeyboardArrowDown />
@@ -47,7 +49,7 @@ const Header = () => {
             sx={{
               backgroundColor: "#8AE700",
               color: "#000",
-              fontFamily: 'Poppins',
+              fontFamily: "Poppins",
               "&:hover": { backgroundColor: "#76c300" },
             }}
           >
@@ -55,24 +57,23 @@ const Header = () => {
           </Button>
         </Box>
 
-        {/* Right Side Items */}
         <Box display="flex" alignItems="center" gap={2}>
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: 'Poppins' }}>
+            <Typography variant="body1" sx={{ fontFamily: "Poppins" }}>
               Registration Balance
             </Typography>
             <KeyboardArrowDown />
           </Box>
 
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: 'Poppins' }}>
+            <Typography variant="body1" sx={{ fontFamily: "Poppins" }}>
               How to Pay
             </Typography>
             <KeyboardArrowDown />
           </Box>
 
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: 'Poppins' }}>
+            <Typography variant="body1" sx={{ fontFamily: "Poppins" }}>
               More
             </Typography>
             <KeyboardArrowDown />
@@ -83,7 +84,7 @@ const Header = () => {
           </IconButton>
 
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: 'Poppins' }}>
+            <Typography variant="body1" sx={{ fontFamily: "Poppins" }}>
               $90.90
             </Typography>
             <KeyboardArrowDown />
@@ -94,7 +95,7 @@ const Header = () => {
             sx={{
               backgroundColor: "#8AE700",
               color: "#000",
-              fontFamily: 'Poppins',
+              fontFamily: "Poppins",
               "&:hover": { backgroundColor: "#76c300" },
             }}
           >
