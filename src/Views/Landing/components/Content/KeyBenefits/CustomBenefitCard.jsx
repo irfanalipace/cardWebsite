@@ -1,11 +1,12 @@
 import { Grid, Card, CardContent, Typography, Box } from "@mui/material";
 import { useTheme } from "@emotion/react";
+import { truncateString } from "../../../../../utils/helper";
 
 const CustomBenefitCard = ({ img, title, description }) => {
   const theme = useTheme();
   return (
     <Grid item xs={12} sm={6} md={3}>
-      <Card sx={{ boxShadow: 2 }}>
+      <Card sx={{ boxShadow: 2, height: "260px" }}>
         <CardContent>
           <Box
             sx={{
@@ -29,7 +30,7 @@ const CustomBenefitCard = ({ img, title, description }) => {
               fontWeight: 700,
             }}
           >
-            {title}
+            {truncateString(title, 15)}
           </Typography>
           <Typography
             sx={{

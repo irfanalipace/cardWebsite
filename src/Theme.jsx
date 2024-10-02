@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material";
-import KeyBenefits from "./Views/Landing/components/Content/KeyBenefits";
 
 export const theme = createTheme({
   palette: {
@@ -20,7 +19,8 @@ export const theme = createTheme({
       benefitDescription: "#575757",
       benefitCardDescription: "#8B8B8B",
       benefitCardImg: " #8AE700",
-      howToBuyAccordion:"#EAF0EF"
+      howToBuyAccordion: "#EAF0EF",
+      cartTextPurple: "linear-gradient(96.71deg, #5656F2 0%, #3333DC 101.64%)",
     },
   },
 });
