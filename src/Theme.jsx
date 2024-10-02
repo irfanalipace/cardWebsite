@@ -20,7 +20,9 @@ export const theme = createTheme({
       benefitCardDescription: "#8B8B8B",
       benefitCardImg: " #8AE700",
       howToBuyAccordion: "#EAF0EF",
-      cartTextPurple: "linear-gradient(96.71deg, #5656F2 0%, #3333DC 101.64%)",
+      cartTextPurple: "#5656F2",
+      cartTextGray: "#848484",
+      cartTextBackground: "#4747471A",
     },
   },
 });
