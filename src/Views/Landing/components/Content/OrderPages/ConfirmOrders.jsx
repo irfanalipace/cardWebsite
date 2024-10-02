@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Box, Tabs, Tab, Typography, LinearProgress } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box, Tabs, Tab, Typography, LinearProgress, useMediaQuery } from "@mui/material";
+import { styled, useTheme } from "@mui/material/styles";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HeaderOrderSections from "../../Header/HeaderOrderSections";
 import ConfirmOrderCards from "./ConfirmOrderCards";
 import Footer from "../../Footer";
 import PayOrder from "./PayOrder";
 import RecviedOrder from "./RecviedOrder";
+
 const StyledTab = styled(Tab)(({ theme, selected, completed }) => ({
   minWidth: 100,
   height: 50,
@@ -39,7 +40,11 @@ const StyledTab = styled(Tab)(({ theme, selected, completed }) => ({
 }));
 
 const ConfirmOrders = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+
+  const [currentStep, setCurrentStep] = useState(1);
+  
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleChange = (event, newValue) => {
     setCurrentStep(newValue);
@@ -49,20 +54,21 @@ const ConfirmOrders = () => {
 
   return (
     <Box>
-      <Box sx={{ margin: "143px" }}>
+      <Box sx={{ margin: isMobile ? "80px 10px" : "143px" }}>
         <HeaderOrderSections />
         <Box
           display="flex"
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          mt={5}
+          mt={isMobile ? 2 : 5}
         >
           <Tabs
             value={currentStep}
             onChange={handleChange}
             indicatorColor="none"
             centered
+            orientation={isMobile ? "vertical" : "horizontal"}
           >
             <StyledTab
               selected={currentStep === 0}
@@ -114,7 +120,7 @@ const ConfirmOrders = () => {
             />
           </Tabs>
 
-          <Box width="45%" mt={2}>
+          <Box width={isMobile ? "90%" : "45%"} mt={2}>
             <LinearProgress
               variant="determinate"
               value={progress}
@@ -126,7 +132,7 @@ const ConfirmOrders = () => {
             />
           </Box>
 
-          <Box mt={5} sx={{ maxWidth: "none" }}>
+          <Box mt={isMobile ? 3 : 5} sx={{ maxWidth: "none" }}>
             {currentStep === 0 && <Typography>Select Items</Typography>}
             {currentStep === 1 && (
               <Box>
