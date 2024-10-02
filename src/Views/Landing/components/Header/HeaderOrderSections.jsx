@@ -15,9 +15,8 @@ import {
 import { ShoppingCart, KeyboardArrowDown, Menu } from "@mui/icons-material";
 import React, { useState } from "react";
 import imagelog from "../../../../assets/images/logo.png";
-import { Link } from "react-router-dom";
-
-const Header = () => {
+import {Link} from "react-router-dom"
+const HeaderOrderSections = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -81,16 +80,17 @@ const Header = () => {
           flexWrap: { xs: "wrap", md: "nowrap" },
         }}
       >
+       
         <Box display="flex" alignItems="center">
-          <Link to="/">
-            <Typography variant="h6">
-              <img src={imagelog} alt="logo" style={{ height: "40px" }} />
-            </Typography>
+         <Link to="/">
+          <Typography variant="h6">
+            <img src={imagelog} alt="logo" style={{ height: "40px" }} />
+          </Typography>
           </Link>
           <Divider
             orientation="vertical"
             flexItem
-            sx={{ height: "40px", margin: "0 16px",  color: "white" }}
+            sx={{ height: "40px", margin: "0 16px", color: "black" }}
           />
         </Box>
 
@@ -98,7 +98,7 @@ const Header = () => {
           edge="start"
           color="inherit"
           aria-label="menu"
-          sx={{ display: { xs: "flex", md: "none" },  color: "white" }}
+          sx={{ display: { xs: "flex", md: "none" }, color: "black" }}
           onClick={handleDrawerToggle}
         >
           <Menu />
@@ -125,7 +125,10 @@ const Header = () => {
           }}
         >
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
+            <Typography
+              variant="body1"
+              sx={{ fontFamily: "Poppins", color: "black" }}
+            >
               Prepaid Cards
             </Typography>
             <KeyboardArrowDown />
@@ -134,7 +137,7 @@ const Header = () => {
             variant="contained"
             sx={{
               backgroundColor: "#8AE700",
-              color: "white",
+              color: "black",
               fontFamily: "Poppins",
               "&:hover": { backgroundColor: "#76c300" },
             }}
@@ -152,42 +155,54 @@ const Header = () => {
           }}
         >
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
+            <Typography
+              variant="body1"
+              sx={{ fontFamily: "Poppins", color: "black" }}
+            >
               Registration Balance
             </Typography>
-            <KeyboardArrowDown style={{  color: "white" }} />
+            <KeyboardArrowDown style={{ color: "black" }} />
           </Box>
 
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
+            <Typography
+              variant="body1"
+              sx={{ fontFamily: "Poppins", color: "black" }}
+            >
               How to Pay
             </Typography>
-            <KeyboardArrowDown style={{  color: "white" }} />
+            <KeyboardArrowDown style={{ color: "black" }} />
           </Box>
 
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
+            <Typography
+              variant="body1"
+              sx={{ fontFamily: "Poppins", color: "black" }}
+            >
               More
             </Typography>
-            <KeyboardArrowDown style={{  color: "white" }} />
+            <KeyboardArrowDown style={{ color: "black" }} />
           </Box>
 
-          <IconButton edge="end" color="inherit" style={{  color: "white" }}>
-            <ShoppingCart style={{  color: "white" }} />
+          <IconButton edge="end" color="inherit" style={{ color: "black" }}>
+            <ShoppingCart style={{ color: "black" }} />
           </IconButton>
 
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
+            <Typography
+              variant="body1"
+              sx={{ fontFamily: "Poppins", color: "black" }}
+            >
               $90.90
             </Typography>
-            <KeyboardArrowDown style={{  color: "white" }} />
+            <KeyboardArrowDown style={{ color: "black" }} />
           </Box>
 
           <Button
             variant="contained"
             sx={{
               backgroundColor: "#8AE700",
-              color: "white",
+              color: "black",
               fontFamily: "Poppins",
               "&:hover": { backgroundColor: "#76c300" },
             }}
@@ -200,4 +215,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderOrderSections;

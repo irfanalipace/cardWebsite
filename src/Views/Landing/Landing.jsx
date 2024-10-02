@@ -8,6 +8,7 @@ import HeroSections from "./components/Content/HomePage/HeroSections";
 import heroimage from "../../assets/images/vector.png";
 import OfferSections from "./components/Content/HomePage/OfferSections";
 import PrepaidCard from "./components/Content/HomePage/PrepaidCard";
+import ConfirmOrders from "./components/Content/OrderPages/ConfirmOrders";
 
 const StyledRoot = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
@@ -21,7 +22,7 @@ const BackgroundImage = styled(Box)(({ theme }) => ({
   top: 0,
   left: 0,
   width: "100%",
-  height: "13%",
+  height: "12%",
   backgroundImage: `url(${heroimage})`,
   backgroundSize: "cover",
   backgroundPosition: "top",
@@ -39,6 +40,7 @@ const Landing = () => {
     <StyledRoot>
       <BackgroundImage />
       <Header />
+
       <MainContent>
         <HeroSections />
         <OfferSections />
@@ -47,6 +49,7 @@ const Landing = () => {
         <KeyBenefits />
         <HowToBuy />
       </MainContent>
+
       <Footer />
     </StyledRoot>
   );

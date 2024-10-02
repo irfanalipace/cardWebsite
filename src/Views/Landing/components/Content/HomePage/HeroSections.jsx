@@ -8,11 +8,11 @@ const HeroSections = () => {
       <Grid container alignItems="center" spacing={4}>
         <Grid item xs={12} md={6}>
           <Typography
-            variant="h3"
             sx={{
               fontWeight: "bold",
               marginBottom: "1rem",
               fontFamily: "Poppins",
+              fontSize: { md: "38px", sm: "20px" },
             }}
           >
             Virtual Credit Cards: Your Way to Safer Payments

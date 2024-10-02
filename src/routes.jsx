@@ -5,6 +5,7 @@ import InformationLayout from "./layouts/InformationLayout";
 import ContactUs from "./Views/ContactUs";
 import HelpCenter from "./Views/HelpCenter";
 import RefundPolicy from "./Views/RefundPolicy";
+import ConfirmOrders from "./Views/Landing/components/Content/OrderPages/ConfirmOrders";
 
 export default function Router() {
   let element = useRoutes([
@@ -15,6 +16,10 @@ export default function Router() {
     {
       path: "/select-payment",
       element: <SelectPayment />,
+    },
+    {
+      path: "/order-confirm",
+      element: <ConfirmOrders />,
     },
     {
       path: "/",
