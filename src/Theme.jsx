@@ -13,6 +13,7 @@ export const theme = createTheme({
       poppins: "Poppins, sans-serif",
     },
     custom: {
+      accountSettingCancel: "#4C535F",
       black: "#000000",
       black2: " #0C0507",
       benefitDescription: "#575757",
@@ -22,6 +23,8 @@ export const theme = createTheme({
       cartTextGray: "#848484",
       cartTextBackground: "#4747471A",
       contactInformation: "#7ED300",
+      delete: "#FF0000",
+      deleteHover: "#e60000",
       green: "#39e600",
       getInTouchDescription: "#929292",
       howToBuyAccordion: "#EAF0EF",
@@ -31,8 +34,11 @@ export const theme = createTheme({
       RefundPolicyAccordion: "#444444",
       subscribeOfferBackground: "#E3E3E3",
       subscribeTextField: "#8A8A8A",
+      tableCellText: "#999999",
+      tableBodyBackground: "#F8F9FB",
       white: "#ffffff",
       whiteShadow: "#F7F7F7",
+      historyLayoutBackgroundColor: "#F7F8FA",
     },
   },
 });
