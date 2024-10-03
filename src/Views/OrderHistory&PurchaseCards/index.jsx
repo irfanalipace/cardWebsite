@@ -6,9 +6,9 @@ import { useState } from "react";
 
 const OrderHistoryPurchaseCard = () => {
   const theme = useTheme();
-  const [selectedTab, setSelectedTab] = useState("Order History"); // Default tab
+  const [selectedTab, setSelectedTab] = useState("Order History"); 
 
-  // Function to handle the tab change from HistoryCardTabs
+ 
   const handleTabChange = (newTab) => {
     setSelectedTab(newTab);
   };

@@ -41,7 +41,7 @@ export default function Router() {
         { path: "account-setting", element: <AccountSetting /> },
         { path: "notification-setting", element: <NotificationSetting /> },
         {
-          path: "history-and-purchases",
+          path: "history",
           element: <OrderHistoryPurchaseCard />,
         },
       ],

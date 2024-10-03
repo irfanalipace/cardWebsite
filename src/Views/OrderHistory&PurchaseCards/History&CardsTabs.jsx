@@ -9,9 +9,8 @@ export default function HistoryCardTabs({ selectedTab, onTabChange }) {
   const [indicatorWidth, setIndicatorWidth] = React.useState(0);
   const [indicatorLeft, setIndicatorLeft] = React.useState(0);
 
-  // Handle tab change
   const handleChange = (event, newValue) => {
-    onTabChange(newValue); // Call the parent function to update the selected tab
+    onTabChange(newValue);
   };
 
   React.useEffect(() => {
@@ -27,7 +26,7 @@ export default function HistoryCardTabs({ selectedTab, onTabChange }) {
   return (
     <Box
       sx={{
-        width: "100%",
+        width: "60%",
         position: "relative",
         padding: theme.spacing(4),
         [theme.breakpoints.down("sm")]: {
@@ -39,10 +38,12 @@ export default function HistoryCardTabs({ selectedTab, onTabChange }) {
         value={selectedTab}
         onChange={handleChange}
         aria-label="Order and Cards Tabs"
+        variant="fullWidth"
         sx={{
           "& .MuiTabs-indicator": {
-            display: "none", // Hide the default indicator
+            display: "none",
           },
+          display: "flex",
         }}
       >
         <Tab
@@ -52,10 +53,11 @@ export default function HistoryCardTabs({ selectedTab, onTabChange }) {
           sx={{
             color: selectedTab === "Order History" ? "#8AE700" : "#000000",
             textTransform: "none",
-            fontSize: { xs: "16px", md: "20px" },
+            fontSize: { xs: "14px", sm: "16px", md: "20px" },
             fontFamily: "Poppins",
-            padding: "10px 0",
+            padding: { xs: "8px 0", md: "10px 0" },
             flexGrow: 1,
+            maxWidth: "50%",
             "&.Mui-selected": {
               color: "#8AE700",
             },
@@ -71,10 +73,11 @@ export default function HistoryCardTabs({ selectedTab, onTabChange }) {
                 ? "#8AE700"
                 : "#000000",
             textTransform: "none",
-            fontSize: { xs: "16px", md: "20px" },
+            fontSize: { xs: "14px", sm: "16px", md: "20px" },
             fontFamily: "Poppins",
-            padding: "10px 0",
+            padding: { xs: "8px 0", md: "10px 0" },
             flexGrow: 1,
+            maxWidth: "50%",
             "&.Mui-selected": {
               color: "#8AE700",
             },
@@ -82,14 +85,13 @@ export default function HistoryCardTabs({ selectedTab, onTabChange }) {
         />
       </Tabs>
 
-      {/* Custom indicator */}
       <Box
         sx={{
           position: "absolute",
           bottom: 0,
           left: indicatorLeft,
           width: indicatorWidth,
-          height: "3px",
+          height: "2px",
           backgroundColor: "#8AE700",
           borderRadius: "2px",
           transition: "left 0.3s ease, width 0.3s ease",
