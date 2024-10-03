@@ -7,15 +7,15 @@ const CustomBenefitCard = ({ img, title, description }) => {
   const theme = useTheme();
   return (
     <Grid item xs={12} sm={6} md={3}>
-      <Card 
-        sx={{ 
-          boxShadow: 2, 
+      <Card
+        sx={{
+          boxShadow: 2,
           height: "auto", // Allow the card height to be dynamic
-          transition: 'transform 0.3s, box-shadow 0.3s', // Add transition for hover effect
-          '&:hover': {
-            transform: 'scale(1.05)', // Scale effect on hover
+          transition: "transform 0.3s, box-shadow 0.3s", // Add transition for hover effect
+          "&:hover": {
+            transform: "scale(1.05)", // Scale effect on hover
             boxShadow: 6, // Increase shadow on hover
-          }
+          },
         }}
       >
         <CardContent>
@@ -30,10 +30,10 @@ const CustomBenefitCard = ({ img, title, description }) => {
               borderRadius: "none",
             }}
           >
-            <img 
-              src={img} 
+            <img
+              src={img}
               alt={title} // Use title as alt text for better accessibility
-              style={{ maxWidth: '100%', maxHeight: '100%' }} // Ensure image fits within the box
+              style={{ maxWidth: "100%", maxHeight: "100%" }} // Ensure image fits within the box
             />
           </Box>
           <Typography
@@ -63,7 +63,6 @@ const CustomBenefitCard = ({ img, title, description }) => {
   );
 };
 
-// Adding PropTypes for validation
 CustomBenefitCard.propTypes = {
   img: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
