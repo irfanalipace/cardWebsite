@@ -39,6 +39,7 @@ export const theme = createTheme({
       white: "#ffffff",
       whiteShadow: "#F7F7F7",
       historyLayoutBackgroundColor: "#F7F8FA",
+      signInColor: "#666687",
     },
   },
 });
