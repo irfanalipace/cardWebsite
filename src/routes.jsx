@@ -10,6 +10,7 @@ import HistoryLayout from "./layouts/HistoryLayout";
 import AccountSetting from "./Views/AccountSettings";
 import NotificationSetting from "./Views/NotificationSettings";
 import OrderHistoryPurchaseCard from "./Views/OrderHistory&PurchaseCards";
+import OtpAuthentications from "./Views/Auth/OtpAuthentications";
 
 export default function Router() {
   let element = useRoutes([
@@ -24,6 +25,14 @@ export default function Router() {
     {
       path: "/order-confirm",
       element: <ConfirmOrders />,
+    },
+    {
+      path: "/account-setting",
+      element: <AccountSetting />,
+    },
+    {
+      path: "/otp-authentication",
+      element: <OtpAuthentications />,
     },
     {
       path: "/",
