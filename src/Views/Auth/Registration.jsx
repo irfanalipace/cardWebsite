@@ -6,19 +6,73 @@ import {
   styled,
   Typography,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import RegistrationLogo from "../../assets/images/registrationLogo.svg";
 import RightSide from "../../assets/images/Right-Side.svg";
 import FormField from "./FormField";
 import PasswordField from "./PasswordField";
 import { theme } from "../../Theme";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { registrationSchema } from "../../utils/ValidationsSchemas/RegisrationSchema";
+import { register } from "../../store/actions/authActions";
+import { useDispatch } from "react-redux";
 
 const Registration = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [loader, setLoader] = useState(false);
+
   const GreenCheckbox = styled(Checkbox)(({ theme }) => ({
     "&.Mui-checked": {
-      color: theme.palette.custom.benefitCardImg, // Green when checked
+      color: theme.palette.custom.benefitCardImg,
     },
   }));
+
+  const [formValues, setFormValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [formErrors, setFormErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoader(true);
+      registrationSchema.parse(formValues);
+
+      const isSuccess = await dispatch(register(formValues));
+      if (isSuccess) {
+        setFormValues({
+          name: "",
+          email: "",
+          password: "",
+        });
+        setLoader(false);
+        setFormErrors({});
+        navigate("/otp-authentication");
+      }
+    } catch (error) {
+      const formattedErrors = {};
+      error.errors.forEach((err) => {
+        formattedErrors[err.path[0]] = err.message;
+      });
+      setLoader(false);
+      setFormErrors(formattedErrors);
+    }
+  };
 
   return (
     <Stack direction="row">
@@ -61,31 +115,39 @@ const Registration = () => {
           </Typography>
 
           <FormField
+            name={"name"}
             label={"Full Name"}
             type={"text"}
-            defaultValue={"Hamza Yaseen"}
+            placeholder={"Hamza Yaseen"}
             formControlStyle={{ marginTop: 3 }}
+            value={formValues.name}
+            onChange={handleInputChange}
+            error={!!formErrors.name}
+            helperText={formErrors.name}
           />
 
           <FormField
+            name={"email"}
             label={"Email"}
             type={"email"}
-            defaultValue={"hamzayasin499@gmail.com"}
+            placeholder={"hamzayasin499@gmail.com"}
             formControlStyle={{ marginTop: 3 }}
+            value={formValues.email}
+            onChange={handleInputChange}
+            error={!!formErrors.email}
+            helperText={formErrors.email}
           />
 
           <PasswordField
+            name={"password"}
             label={"Password"}
             type={"password"}
-            defaultValue={"hamzayasin499@gmail.com"}
+            defaultValue={"**************"}
             formControlStyle={{ marginTop: 1 }}
-          />
-
-          <PasswordField
-            label={"Confirm Password"}
-            type={"password"}
-            defaultValue={"hamzayasin499@gmail.com"}
-            formControlStyle={{ marginTop: 1 }}
+            value={formValues.password}
+            onChange={handleInputChange}
+            error={!!formErrors.password}
+            helperText={formErrors.password}
           />
 
           <Stack
@@ -118,8 +180,13 @@ const Registration = () => {
               textTransform: "none",
               py: 1.2,
             }}
+            onClick={handleSubmit}
           >
-            Register
+            {loader ? (
+              <CircularProgress size={24} sx={{ color: "white" }} />
+            ) : (
+              "Register"
+            )}
           </Button>
         </Stack>
 
@@ -130,15 +197,17 @@ const Registration = () => {
           }}
         >
           Have an account?
-          <span
+          <Link
+            to={"/login"}
             style={{
               color: theme.palette.custom.benefitCardImg,
               fontWeight: 600,
+              textDecoration: "none",
             }}
           >
             {" "}
             Sign in!
-          </span>
+          </Link>
         </Typography>
       </Box>
       <Box

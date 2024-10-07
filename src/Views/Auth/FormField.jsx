@@ -1,30 +1,53 @@
-import { FormControl, FormLabel, TextField } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  TextField,
+} from "@mui/material";
 
-const FormField = ({ label, type, defaultValue, formControlStyle }) => {
+const FormField = ({
+  name,
+  label,
+  type,
+  formControlStyle,
+  placeholder,
+  value,
+  onChange,
+  error,
+  helperText,
+}) => {
   return (
     <FormControl fullWidth>
       <FormLabel sx={{ mb: 1, ...formControlStyle }}>{label}</FormLabel>
       <TextField
+        name={name}
         type={type}
         variant="outlined"
-        defaultValue={defaultValue}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        error={!!error}
         InputLabelProps={{
           shrink: false,
         }}
         sx={{
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
-              borderColor: "rgba(0, 0, 0, 0.23)", // Change border color (default)
+              borderColor: error ? "red" : "rgba(0, 0, 0, 0.23)", // Change border color (default)
             },
             "&:hover fieldset": {
-              borderColor: "rgba(0, 0, 0, 0.23)", // Change border color on hover
+              borderColor: error ? "red" : "rgba(0, 0, 0, 0.23)", // Change border color on hover
             },
             "&.Mui-focused fieldset": {
-              borderColor: "rgba(0, 0, 0, 0.23)", // Change border color when focused
+              borderColor: error ? "red" : "rgba(0, 0, 0, 0.23)", // Change border color when focused
             },
           },
         }}
       />
+
+      {error && (
+        <FormHelperText sx={{ color: "#e60000" }}>{helperText}</FormHelperText>
+      )}
     </FormControl>
   );
 };

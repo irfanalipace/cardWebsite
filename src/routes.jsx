@@ -45,7 +45,7 @@ export default function Router() {
     },
     {
       path: "/registration",
-      element: <Registration/>,
+      element: <Registration />,
     },
     {
       path: "/forget-password",

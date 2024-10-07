@@ -7,11 +7,12 @@ const client = axios.create({
 
 export const request = async ({ ...options }, notify = true) => {
   const onSuccess = (response) => {
+    // debugger;
     if (notify) {
       if (response.status === 200) {
         if (options.method === "delete") {
           ToastComp({
-            varient: "success",
+            variant: "success",
             message: response.message
               ? response.message
               : "Removed Successfully",
@@ -19,7 +20,7 @@ export const request = async ({ ...options }, notify = true) => {
         } else if (options.method === "put") {
           if (notify) {
             ToastComp({
-              varient: "success",
+              variant: "success",
               message: response.message
                 ? response.message
                 : "Updated Successfully",
@@ -28,13 +29,13 @@ export const request = async ({ ...options }, notify = true) => {
         } else if (options.method === "post") {
           if (notify) {
             ToastComp({
-              varient: "info",
+              variant: "success",
               message: response.message ? response.message : "Already Added",
             });
             return response;
           } else {
             ToastComp({
-              varient: "info",
+              variant: "info",
               message: response.message ? response.message : "Already Added",
             });
           }
@@ -42,7 +43,7 @@ export const request = async ({ ...options }, notify = true) => {
         } else if (options.method === "patch") {
           if (notify) {
             ToastComp({
-              varient: "success",
+              variant: "success",
               message: response.message
                 ? response.message
                 : "Updated Successfully",
@@ -53,7 +54,7 @@ export const request = async ({ ...options }, notify = true) => {
       } else if (response.status === 201) {
         if (notify == true) {
           ToastComp({
-            varient: "success",
+            variant: "success",
             message: response.message ? response.message : "Added Successfully",
           });
           return response;
@@ -62,7 +63,7 @@ export const request = async ({ ...options }, notify = true) => {
         }
       } else {
         ToastComp({
-          varient: "error",
+          variant: "error",
           message: response.message ? response.message : "Error",
         });
         return response;
@@ -73,6 +74,7 @@ export const request = async ({ ...options }, notify = true) => {
   };
 
   const onError = (error) => {
+    // debugger;
     console.log(
       "Error In Axios interceptor : ",
       error,
@@ -80,7 +82,7 @@ export const request = async ({ ...options }, notify = true) => {
     );
     if (notify) {
       ToastComp({
-        varient: "error",
+        variant: "error",
         message:
           error?.response?.data?.message ||
           error?.message ||

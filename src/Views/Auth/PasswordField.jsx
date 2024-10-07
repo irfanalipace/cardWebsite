@@ -1,5 +1,6 @@
 import {
   FormControl,
+  FormHelperText,
   FormLabel,
   IconButton,
   InputAdornment,
@@ -9,7 +10,16 @@ import {
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const PasswordField = ({ label, defaultValue, formControlStyle }) => {
+const PasswordField = ({
+  label,
+  placeholder,
+  formControlStyle,
+  value,
+  onChange,
+  name,
+  error,
+  helperText,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
   const handleMouseDownPassword = (event) => event.preventDefault();
 
@@ -19,9 +29,13 @@ const PasswordField = ({ label, defaultValue, formControlStyle }) => {
       <FormLabel sx={{ mb: 1, ...formControlStyle }}>{label}</FormLabel>
 
       <TextField
+        name={name}
         type={showPassword ? "email" : "password"}
-        defaultValue={defaultValue}
+        placeholder={placeholder}
         variant="outlined"
+        value={value}
+        onChange={onChange}
+        error={!!error}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -38,7 +52,6 @@ const PasswordField = ({ label, defaultValue, formControlStyle }) => {
         InputLabelProps={{
           shrink: false,
         }}
-        defaultValue={defaultValue}
         sx={{
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
@@ -53,6 +66,9 @@ const PasswordField = ({ label, defaultValue, formControlStyle }) => {
           },
         }}
       />
+      {error && (
+        <FormHelperText sx={{ color: "#e60000" }}>{helperText}</FormHelperText>
+      )}
     </FormControl>
   );
 };
