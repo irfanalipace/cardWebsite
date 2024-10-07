@@ -11,6 +11,9 @@ import AccountSetting from "./Views/AccountSettings";
 import NotificationSetting from "./Views/NotificationSettings";
 import OrderHistoryPurchaseCard from "./Views/OrderHistory&PurchaseCards";
 import OtpAuthentications from "./Views/Auth/OtpAuthentications";
+import ForgetPassword from "./Views/Auth/ForgetPassword";
+import VerifyPassword from "./Views/Auth/VerifyPassword";
+import ChangePassword from "./Views/Auth/ChangePassword";
 
 export default function Router() {
   let element = useRoutes([
@@ -33,6 +36,18 @@ export default function Router() {
     {
       path: "/otp-authentication",
       element: <OtpAuthentications />,
+    },
+    {
+      path: "/forget-password",
+      element: <ForgetPassword />,
+    },
+    {
+      path: "/verify-password",
+      element: <VerifyPassword />,
+    },
+    {
+      path: "/change-password",
+      element: <ChangePassword />,
     },
     {
       path: "/",
