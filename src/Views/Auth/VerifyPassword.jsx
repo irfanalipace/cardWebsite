@@ -1,7 +1,7 @@
 import { Paper } from "@mui/material";
 import React, { useState } from "react";
 
-const OtpAuthentications = () => {
+const VerifyPassword = () => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
 
   const handleChange = (element, index) => {
@@ -46,7 +46,7 @@ const OtpAuthentications = () => {
             <span style={styles.resendLink}>Resend OTP</span>
           </p>
 
-          <button style={styles.confirmButton}>Confirm</button>
+          <button style={styles.confirmButton}>Verify & Proceed</button>
         </div>
       </Paper>
     </div>
@@ -129,4 +129,4 @@ const styles = {
   },
 };
 
-export default OtpAuthentications;
+export default VerifyPassword;

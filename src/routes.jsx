@@ -13,6 +13,9 @@ import OrderHistoryPurchaseCard from "./Views/OrderHistory&PurchaseCards";
 import OtpAuthentications from "./Views/Auth/OtpAuthentications";
 import Login from "./Views/Auth/Login";
 import Registration from "./Views/Auth/Registration";
+import ForgetPassword from "./Views/Auth/ForgetPassword";
+import VerifyPassword from "./Views/Auth/VerifyPassword";
+import ChangePassword from "./Views/Auth/ChangePassword";
 
 export default function Router() {
   let element = useRoutes([
@@ -43,6 +46,18 @@ export default function Router() {
     {
       path: "/registration",
       element: <Registration/>,
+    },
+    {
+      path: "/forget-password",
+      element: <ForgetPassword />,
+    },
+    {
+      path: "/verify-password",
+      element: <VerifyPassword />,
+    },
+    {
+      path: "/change-password",
+      element: <ChangePassword />,
     },
     {
       path: "/",
