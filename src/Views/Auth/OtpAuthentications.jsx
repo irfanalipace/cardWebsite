@@ -9,7 +9,7 @@ const OtpAuthentications = () => {
   const dispatch = useDispatch();
   const [loader, setLoader] = useState(false);
 
-  const email = useSelector((state) => state.auth?.user.email);
+  const email = useSelector((state) => state.auth?.user?.email);
   const [otp, setOtp] = useState(new Array(4).fill(""));
 
   const handleChange = (element, index) => {
