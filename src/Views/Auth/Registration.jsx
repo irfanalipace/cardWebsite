@@ -61,7 +61,7 @@ const Registration = () => {
           password: "",
         });
         setFormErrors({});
-        navigate("/otp-authentication");
+        navigate("/otp-authentication", { state: { type: "register" } });
       }
       setLoader(false);
     } catch (error) {

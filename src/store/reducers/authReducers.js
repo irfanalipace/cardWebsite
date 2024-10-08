@@ -3,6 +3,7 @@ import { createAction, createReducer } from "@reduxjs/toolkit";
 const initialState = {
   isAuthenticated: false,
   token: null,
+  forgetPasswordVerificationToken: null,
   user: null,
 };
 

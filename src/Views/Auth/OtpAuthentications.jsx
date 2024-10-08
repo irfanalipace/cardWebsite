@@ -2,15 +2,18 @@ import { Button, CircularProgress, Paper } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { resendOtp, verifyOtp } from "../../store/actions/authActions";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import OtpInput from "react-otp-input";
 
 const OtpAuthentications = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const [loader, setLoader] = useState(false);
-
+  const type = location.state?.type || "register";
+  const forgot_email = location.state?.forgot_email;
   const email = useSelector((state) => state.auth?.user?.email);
+
   const [otp, setOtp] = useState("");
 
   const handleChange = (otpValue) => {
@@ -55,12 +58,22 @@ const OtpAuthentications = () => {
     e.preventDefault();
     setLoader(true);
     try {
-      const data = { otp, email };
+      const data = {
+        otp,
+        email: type === "forgot_password" ? forgot_email : email,
+        type,
+      };
       const isSuccess = await dispatch(verifyOtp(data));
-      if (isSuccess) {
+      if (isSuccess && type === "register") {
         setOtp("");
         navigate("/history");
+      } else {
+        setOtp("");
+        navigate("/change-password", {
+          state: { verification_token: "register" },
+        });
       }
+
       setLoader(false);
     } catch (error) {
       const formattedErrors = {};

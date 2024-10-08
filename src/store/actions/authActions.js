@@ -96,7 +96,7 @@ export const forgotPassword = (email) => async (dispatch) => {
   try {
     const response = await request({
       method: "post",
-      url: "api/resendOtp", // Replace with your actual forgot password endpoint
+      url: "api/forgot/password",
       data: { email },
     });
     if (response.status === 200 || response.status === 201) {

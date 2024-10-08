@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import { TextField, IconButton, InputAdornment, Button, Paper } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import React, { useState } from "react";
+import {
+  TextField,
+  IconButton,
+  InputAdornment,
+  Button,
+  Paper,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const ChangePassword = () => {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -21,14 +27,15 @@ const ChangePassword = () => {
       <Paper elevation={3} style={styles.paperContainer}>
         <h3 style={styles.heading}>Change Password</h3>
         <p style={styles.description}>
-          Input your new desired password in the input fields below to create a new password.
+          Input your new desired password in the input fields below to create a
+          new password.
         </p>
 
         {/* Password Input */}
         <TextField
           label="Password"
           variant="outlined"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           fullWidth
@@ -48,7 +55,7 @@ const ChangePassword = () => {
         <TextField
           label="Confirm Password"
           variant="outlined"
-          type={showConfirmPassword ? 'text' : 'password'}
+          type={showConfirmPassword ? "text" : "password"}
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           fullWidth
@@ -65,11 +72,7 @@ const ChangePassword = () => {
         />
 
         {/* Confirm Button */}
-        <Button
-          variant="contained"
-          style={styles.confirmButton}
-          fullWidth
-        >
+        <Button variant="contained" style={styles.confirmButton} fullWidth>
           Confirm
         </Button>
       </Paper>
@@ -80,40 +83,41 @@ const ChangePassword = () => {
 // Styling for the components
 const styles = {
   outerContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    backgroundColor: '#f9f9f9',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
+    backgroundColor: "#f9f9f9",
   },
   paperContainer: {
-    padding: '40px',
-    maxWidth: '400px',
-    width: '100%',
-    textAlign: 'center',
+    padding: "40px",
+    maxWidth: "400px",
+    width: "100%",
+    textAlign: "center",
   },
   heading: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    marginBottom: '15px', // Adjust padding here for spacing below the heading
-    color: '#333',
+    fontSize: "24px",
+    fontWeight: "bold",
+    marginBottom: "15px", // Adjust padding here for spacing below the heading
+    color: "#333",
   },
   description: {
-    fontSize: '16px',
-    color: '#666',
-    marginBottom: '25px', // Adjust padding here for spacing below the description
-    lineHeight: '1.5',
+    fontSize: "16px",
+    color: "#666",
+    marginBottom: "25px", // Adjust padding here for spacing below the description
+    lineHeight: "1.5",
   },
   textField: {
-    marginBottom: '20px', // Adjust padding here for spacing below each input field
+    marginBottom: "20px", // Adjust padding here for spacing below each input field
   },
   confirmButton: {
-    backgroundColor: '#8AE700',
-    color: '#fff',
-    padding: '10px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
+    backgroundColor: "#8AE700",
+    color: "#fff",
+    padding: "10px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    textTransform: "none",
   },
 };
 

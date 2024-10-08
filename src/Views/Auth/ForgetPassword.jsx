@@ -4,6 +4,7 @@ import {
   Paper,
   Typography,
   FormHelperText,
+  CircularProgress,
 } from "@mui/material";
 import { useState } from "react";
 import { z } from "zod";
@@ -16,21 +17,28 @@ const ForgetPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [loader, setLoader] = useState(false);
+
   const emailSchema = z.string().email("Invalid email format");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoader(true);
 
     try {
       emailSchema.parse(email);
       const isSuccess = await dispatch(forgotPassword(email));
       if (isSuccess) {
         setError("");
-        navigate("/history");
+        navigate("/otp-authentication", {
+          state: { type: "forgot_password", forgot_email: email },
+        });
+        setLoader(false);
       }
     } catch (err) {
       if (err instanceof z.ZodError) {
         setError(err.errors[0].message);
+        setLoader(false);
       }
     }
   };
@@ -73,7 +81,9 @@ const ForgetPassword = () => {
             },
           }}
         />
-        {error && <FormHelperText>{error}</FormHelperText>}
+        {error && (
+          <FormHelperText sx={{ color: "#e60000" }}>{error}</FormHelperText>
+        )}
 
         <Button
           variant="contained"
@@ -88,7 +98,11 @@ const ForgetPassword = () => {
           onClick={handleSubmit}
           disabled={!email}
         >
-          Request Password Change
+          {loader ? (
+            <CircularProgress size={24} sx={{ color: "white" }} />
+          ) : (
+            "Request Password Change"
+          )}
         </Button>
       </Paper>
     </div>
