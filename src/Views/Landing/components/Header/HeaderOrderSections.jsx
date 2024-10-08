@@ -13,11 +13,28 @@ import {
   ListItemText,
 } from "@mui/material";
 import { ShoppingCart, KeyboardArrowDown, Menu } from "@mui/icons-material";
-import React, { useState } from "react";
+import { useState } from "react";
 import imagelog from "../../../../assets/images/logo.png";
-import {Link} from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../../store/actions/authActions";
+
 const HeaderOrderSections = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const token = useSelector((state) => state.auth?.user?.token);
+
+  const handleLogout = async () => {
+    try {
+      const isSuccess = await dispatch(logout());
+      if (isSuccess) {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log("logout error", error);
+    }
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -80,12 +97,11 @@ const HeaderOrderSections = () => {
           flexWrap: { xs: "wrap", md: "nowrap" },
         }}
       >
-       
         <Box display="flex" alignItems="center">
-         <Link to="/">
-          <Typography variant="h6">
-            <img src={imagelog} alt="logo" style={{ height: "40px" }} />
-          </Typography>
+          <Link to="/">
+            <Typography variant="h6">
+              <img src={imagelog} alt="logo" style={{ height: "40px" }} />
+            </Typography>
           </Link>
           <Divider
             orientation="vertical"
@@ -208,6 +224,19 @@ const HeaderOrderSections = () => {
             }}
           >
             Buy Prepaid Cards
+          </Button>
+
+          <Button
+            sx={{
+              backgroundColor: "none",
+              color: "#76c300",
+              fontFamily: "Poppins",
+              "&:hover": { color: "#FF0000" },
+              textTransform: "none",
+            }}
+            onClick={handleLogout}
+          >
+            Logout
           </Button>
         </Box>
       </Toolbar>

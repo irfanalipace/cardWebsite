@@ -1,7 +1,39 @@
-import React from "react";
-import { TextField, Button, Paper, Typography } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Paper,
+  Typography,
+  FormHelperText,
+} from "@mui/material";
+import { useState } from "react";
+import { z } from "zod";
+import { forgotPassword } from "../../store/actions/authActions";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ForgetPassword = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const emailSchema = z.string().email("Invalid email format");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      emailSchema.parse(email);
+      const isSuccess = await dispatch(forgotPassword(email));
+      if (isSuccess) {
+        setError("");
+        navigate("/history");
+      }
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        setError(err.errors[0].message);
+      }
+    }
+  };
   return (
     <div style={styles.outerContainer}>
       <Paper elevation={3} style={styles.paperContainer}>
@@ -16,13 +48,46 @@ const ForgetPassword = () => {
           Email
         </Typography>
         <TextField
-          label="Email Address"
+          placeholder="Email Address"
           variant="outlined"
           fullWidth
           style={styles.textField}
+          name={name}
+          value={email}
+          error={!!error}
+          onChange={(e) => setEmail(e.target.value)}
+          InputLabelProps={{
+            shrink: false,
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: error ? "red" : "rgba(0, 0, 0, 0.23)", // Change border color (default)
+              },
+              "&:hover fieldset": {
+                borderColor: error ? "red" : "rgba(0, 0, 0, 0.23)", // Change border color on hover
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: error ? "red" : "rgba(0, 0, 0, 0.23)", // Change border color when focused
+              },
+            },
+          }}
         />
+        {error && <FormHelperText>{error}</FormHelperText>}
 
-        <Button variant="contained" style={styles.requestButton} fullWidth>
+        <Button
+          variant="contained"
+          style={{
+            ...styles.requestButton,
+            backgroundColor: !email ? "#E0E0E0" : "#8AE700",
+            "&:hover": {
+              backgroundColor: !email ? "#E0E0E0" : "#74B600",
+            },
+          }}
+          fullWidth
+          onClick={handleSubmit}
+          disabled={!email}
+        >
           Request Password Change
         </Button>
       </Paper>
@@ -60,7 +125,6 @@ const styles = {
     marginBottom: "25px",
   },
   requestButton: {
-    backgroundColor: "#8AE700",
     color: "#fff",
     padding: "10px",
     fontSize: "16px",

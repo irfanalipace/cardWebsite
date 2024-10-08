@@ -11,6 +11,8 @@ import AccountSetting from "./Views/AccountSettings";
 import NotificationSetting from "./Views/NotificationSettings";
 import OrderHistoryPurchaseCard from "./Views/OrderHistory&PurchaseCards";
 import OtpAuthentications from "./Views/Auth/OtpAuthentications";
+import Login from "./Views/Auth/Login";
+import Registration from "./Views/Auth/Registration";
 import ForgetPassword from "./Views/Auth/ForgetPassword";
 import VerifyPassword from "./Views/Auth/VerifyPassword";
 import ChangePassword from "./Views/Auth/ChangePassword";
@@ -36,6 +38,14 @@ export default function Router() {
     {
       path: "/otp-authentication",
       element: <OtpAuthentications />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/registration",
+      element: <Registration />,
     },
     {
       path: "/forget-password",

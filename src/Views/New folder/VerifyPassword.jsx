@@ -1,7 +1,10 @@
-import { Paper } from "@mui/material";
-import React, { useState } from "react";
+import { Button, Paper } from "@mui/material";
+import { useState } from "react";
+import { verifyOtp } from "../../store/actions/authActions";
+import { useDispatch } from "react-redux";
 
 const VerifyPassword = () => {
+  const dispatch = useDispatch();
   const [otp, setOtp] = useState(new Array(4).fill(""));
 
   const handleChange = (element, index) => {
@@ -10,9 +13,35 @@ const VerifyPassword = () => {
       newOtp[index] = element.value;
       setOtp(newOtp);
 
+      // Move to the next input field
       if (element.nextSibling) {
         element.nextSibling.focus();
       }
+    } else if (element.value === "") {
+      // Allow backspace to delete the input
+      let newOtp = [...otp];
+      newOtp[index] = "";
+      setOtp(newOtp);
+      if (element.previousSibling) {
+        element.previousSibling.focus();
+      }
+    }
+  };
+
+  const isOtpComplete = otp.every((digit) => digit !== "");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      dispatch(verifyOtp(otp));
+
+      setOtp(new Array(4).fill(""));
+    } catch (error) {
+      // Handle validation errors
+      const formattedErrors = {};
+      error.errors.forEach((err) => {
+        formattedErrors[err.path[0]] = err.message;
+      });
     }
   };
 
@@ -22,8 +51,7 @@ const VerifyPassword = () => {
         <div style={styles.container}>
           <h2 style={styles.heading}>OTP Authentication</h2>
           <p style={styles.description}>
-            Please enter the four-digit verification code we have sent to{" "}
-            <br></br>
+            Please enter the four-digit verification code we have sent to <br />
             <span style={styles.email}>hamzayasin499@gmail.com</span>
           </p>
 
@@ -46,7 +74,19 @@ const VerifyPassword = () => {
             <span style={styles.resendLink}>Resend OTP</span>
           </p>
 
-          <button style={styles.confirmButton}>Verify & Proceed</button>
+          <Button
+            sx={{
+              ...styles.confirmButton,
+              backgroundColor: isOtpComplete ? "#8AE700" : "#E0E0E0",
+              "&:hover": {
+                backgroundColor: isOtpComplete ? "#74B600" : "#E0E0E0",
+              },
+            }}
+            onClick={handleSubmit}
+            disabled={!isOtpComplete}
+          >
+            Verify & Proceed
+          </Button>
         </div>
       </Paper>
     </div>
@@ -116,7 +156,6 @@ const styles = {
     fontWeight: "bold",
   },
   confirmButton: {
-    backgroundColor: "#8AE700",
     color: "#fff",
     padding: "15px 30px",
     border: "none",
