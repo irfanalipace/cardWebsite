@@ -131,6 +131,7 @@ const styles = {
     fontWeight: "bold",
     cursor: "pointer",
     marginTop: "24px",
+    textTransform: "none",
   },
 };
 

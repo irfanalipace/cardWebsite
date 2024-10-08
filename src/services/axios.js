@@ -7,7 +7,6 @@ const client = axios.create({
 
 export const request = async ({ ...options }, notify = true) => {
   const onSuccess = (response) => {
-    // debugger;
     if (notify) {
       if (response.status === 200) {
         if (options.method === "delete") {
@@ -30,7 +29,9 @@ export const request = async ({ ...options }, notify = true) => {
           if (notify) {
             ToastComp({
               variant: "success",
-              message: response.message ? response.message : "Already Added",
+              message: response.data.message
+                ? response.data.message
+                : "Already Added",
             });
             return response;
           } else {
@@ -49,7 +50,17 @@ export const request = async ({ ...options }, notify = true) => {
                 : "Updated Successfully",
             });
           }
+        } else if (options.method === "get") {
+          if (notify) {
+            ToastComp({
+              variant: "success",
+              message: response.data.message
+                ? response.data.message
+                : "get Successfully",
+            });
+          }
         }
+
         return response;
       } else if (response.status === 201) {
         if (notify == true) {
@@ -74,7 +85,6 @@ export const request = async ({ ...options }, notify = true) => {
   };
 
   const onError = (error) => {
-    // debugger;
     console.log(
       "Error In Axios interceptor : ",
       error,

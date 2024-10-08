@@ -57,7 +57,7 @@ export const verifyOtp = (data) => async (dispatch) => {
   try {
     const response = await request({
       method: "post",
-      url: "api/verifyOtp", // Replace with your actual OTP verification endpoint
+      url: "api/verifyOtp",
       data,
     });
     if (response.status === 200 || response.status === 201) {
@@ -111,7 +111,22 @@ export const forgotPassword = (email) => async (dispatch) => {
   }
 };
 
-export const logout = () => (dispatch) => {
-  dispatch(logoutSuccess());
-  return true;  
+export const logout = (token) => async (dispatch) => {
+  try {
+    const response = await request({
+      method: "get",
+      url: "api/logout",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.status === 200 || response.status === 201) {
+      dispatch(logoutSuccess());
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error("Logout error:", error);
+    return false;
+  }
 };

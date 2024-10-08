@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { resendOtp, verifyOtp } from "../../store/actions/authActions";
 import { useNavigate } from "react-router-dom";
+import OtpInput from "react-otp-input";
 
 const OtpAuthentications = () => {
   const navigate = useNavigate();
@@ -10,33 +11,39 @@ const OtpAuthentications = () => {
   const [loader, setLoader] = useState(false);
 
   const email = useSelector((state) => state.auth?.user?.email);
-  const [otp, setOtp] = useState(new Array(4).fill(""));
+  const [otp, setOtp] = useState("");
 
-  const handleChange = (element, index) => {
-    if (/^[0-9]$/.test(element.value)) {
-      let newOtp = [...otp];
-      newOtp[index] = element.value;
-      setOtp(newOtp);
+  const handleChange = (otpValue) => {
+    // Update the OTP state when the value changes
+    setOtp(otpValue);
 
-      if (element.nextSibling) {
-        element.nextSibling.focus();
+    // If the length of the OTP value is less than 4, focus on the next input
+    const inputs = document.querySelectorAll("input");
+    const lastIndex = otpValue.length - 1;
+
+    if (lastIndex >= 0 && inputs[lastIndex]) {
+      inputs[lastIndex].focus(); // Focus the last entered input
+    }
+  };
+
+  const handleKeyDown = (event, index) => {
+    if (event.key === "Backspace" && otp[index] === "") {
+      // Focus on the previous input if the current one is empty
+      const inputs = document.querySelectorAll("input");
+      if (index > 0) {
+        inputs[index - 1].focus(); // Move focus to the previous input
       }
     }
   };
 
-  const isOtpComplete = otp.every((digit) => digit !== "");
-
   const handleResendOtp = async (e) => {
     e.preventDefault();
     try {
-      setLoader(true);
       const isSuccess = await dispatch(resendOtp(email));
       if (isSuccess) {
-        setLoader(false);
-        setOtp(new Array(4).fill(""));
+        setOtp("");
       }
     } catch (error) {
-      setLoader(false);
       const formattedErrors = {};
       error.errors.forEach((err) => {
         formattedErrors[err.path[0]] = err.message;
@@ -46,16 +53,18 @@ const OtpAuthentications = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoader(true);
     try {
-      const Otp = otp.join("");
-      const data = { otp: Otp, email };
+      const data = { otp, email };
       const isSuccess = await dispatch(verifyOtp(data));
       if (isSuccess) {
-        setOtp(new Array(4).fill(""));
+        setOtp("");
         navigate("/history");
       }
+      setLoader(false);
     } catch (error) {
       const formattedErrors = {};
+      setLoader(false);
       error.errors.forEach((err) => {
         formattedErrors[err.path[0]] = err.message;
       });
@@ -69,21 +78,19 @@ const OtpAuthentications = () => {
           <p style={styles.description}>
             Please enter the four-digit verification code we have sent to{" "}
             <br></br>
-            <span style={styles.email}>hamzayasin499@gmail.com</span>
+            <span style={styles.email}>{email}</span>
           </p>
 
           <div style={styles.otpContainer}>
-            {otp.map((data, index) => (
-              <input
-                key={index}
-                type="text"
-                maxLength="1"
-                value={data}
-                onChange={(e) => handleChange(e.target, index)}
-                onFocus={(e) => e.target.select()}
-                style={styles.otpBox}
-              />
-            ))}
+            <OtpInput
+              numInputs={4}
+              value={otp}
+              onChange={handleChange}
+              onFocus={(e) => e.target.select()}
+              onKeyDown={(e, index) => handleKeyDown(e, index)}
+              renderInput={(props) => <input {...props} />}
+              inputStyle={styles.otpBox}
+            />
           </div>
 
           <p style={styles.resendText}>
@@ -96,18 +103,18 @@ const OtpAuthentications = () => {
           <Button
             sx={{
               ...styles.confirmButton,
-              backgroundColor: isOtpComplete ? "#8AE700" : "#E0E0E0",
+              backgroundColor: otp ? "#8AE700" : "#E0E0E0",
               "&:hover": {
-                backgroundColor: isOtpComplete ? "#74B600" : "#E0E0E0",
+                backgroundColor: otp ? "#74B600" : "#E0E0E0",
               },
             }}
             onClick={handleSubmit}
-            disabled={!isOtpComplete}
+            disabled={!otp}
           >
             {loader ? ( // Show loader or Sign in text
               <CircularProgress size={24} sx={{ color: "white" }} />
             ) : (
-              "Sign in"
+              "Verify"
             )}
           </Button>
         </div>
@@ -189,6 +196,7 @@ const styles = {
     marginTop: "16px",
     cursor: "pointer",
     fontWeight: "bold",
+    textTransform: "none",
   },
 };
 
