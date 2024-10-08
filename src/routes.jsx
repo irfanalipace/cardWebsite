@@ -10,12 +10,15 @@ import HistoryLayout from "./layouts/HistoryLayout";
 import AccountSetting from "./Views/AccountSettings";
 import NotificationSetting from "./Views/NotificationSettings";
 import OrderHistoryPurchaseCard from "./Views/OrderHistory&PurchaseCards";
-import OtpAuthentications from "./Views/Auth/OtpAuthentications";
-import Login from "./Views/Auth/Login";
-import Registration from "./Views/Auth/Registration";
-import ForgetPassword from "./Views/Auth/ForgetPassword";
-import VerifyPassword from "./Views/Auth/VerifyPassword";
-import ChangePassword from "./Views/Auth/ChangePassword";
+
+
+
+import OtpAuthentications from "./Views/New folder/OtpAuthentications";
+import Login from "./Views/New folder/Login";
+import Registration from "./Views/New folder/Registration";
+import ForgetPassword from "./Views/New folder/ForgetPassword";
+import VerifyPassword from "./Views/New folder/VerifyPassword";
+import ChangePassword from "./Views/New folder/ChangePassword";
 
 export default function Router() {
   let element = useRoutes([
