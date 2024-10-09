@@ -8,7 +8,7 @@ export const contactApi = async (orderData) => {
         method: "POST",
         data: orderData,
       });
-      alert("jdja");
+     
       if (response.status === 200 || response.status === 201) {
         return { success: response.data.success, data: response.data.payload };
       }
