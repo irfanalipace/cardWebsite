@@ -17,20 +17,27 @@ import pinkImage from "../../assets/images/cardimagegrid5.png";
 import azureImage from "../../assets/images/cardimagegrid6.png";
 import { useNavigate } from "react-router-dom";
 import { fetchCards } from "../../store/actions/cardsAction";
+import moment from "moment";
 
 const PurchaseCards = () => {
   const navigate = useNavigate();
   const [cards, setCards] = useState([]);
   const [loader, setLoader] = useState(false);
 
-  const [quantity, setQuantity] = useState(1);
+  const [quantities, setQuantities] = useState({});
 
-  const increment = () => {
-    setQuantity((prev) => prev + 1);
+  const increment = (id) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: (prev[id] || 0) + 1,
+    }));
   };
 
-  const decrement = () => {
-    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  const decrement = (id) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: Math.max((prev[id] || 1) - 1, 1),
+    }));
   };
 
   const getAllCards = async () => {
@@ -116,13 +123,9 @@ const PurchaseCards = () => {
   return loader ? (
     <CircularProgress size={34} sx={{ color: "8AE700" }} />
   ) : (
-    <Grid
-      container
-      spacing={2}
-      justifyContent="center"
-      sx={{ padding: { xs: "1rem", sm: "2rem" } }}
-    >
+    <Grid container spacing={2} sx={{ padding: { xs: "1rem", sm: "2rem" } }}>
       {cards?.map((card) => {
+        const quantity = quantities[card.id] || 1;
         return (
           <Grid item xs={12} sm={6} md={4} lg={4} key={card.id}>
             <Card
@@ -137,7 +140,7 @@ const PurchaseCards = () => {
               <CardMedia
                 component="img"
                 height="140"
-                image={card.image}
+                image={violetCardImage}
                 alt={card.title}
               />
               <Box
@@ -163,15 +166,52 @@ const PurchaseCards = () => {
                 >
                   {card.type}
                 </Typography>
-                <Typography
-                  variant="body2"
+
+                {/* Balance */}
+                <Box
                   sx={{
-                    fontFamily: "Poppins",
-                    fontSize: { xs: "12px", sm: "14px" },
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "1rem",
                   }}
                 >
-                  {card.description}
-                </Typography>
+                  <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                    Balance:
+                  </Typography>
+
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontFamily: "Poppins",
+                      fontSize: { xs: "12px", sm: "14px" },
+                    }}
+                  >
+                    {card.balance}
+                  </Typography>
+                </Box>
+
+                {/* Create Date */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                    Created At:
+                  </Typography>
+
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontFamily: "Poppins",
+                      fontSize: { xs: "12px", sm: "14px" },
+                    }}
+                  >
+                    {moment(card.created_at).format("MMMM D, YYYY h:mm A")}
+                  </Typography>
+                </Box>
 
                 {/* Quantity Control */}
                 <Box
@@ -185,7 +225,11 @@ const PurchaseCards = () => {
                     Quantity:
                   </Typography>
                   <Box>
-                    <Button onClick={decrement} variant="outlined" size="small">
+                    <Button
+                      onClick={() => decrement(card.id)}
+                      variant="outlined"
+                      size="small"
+                    >
                       -
                     </Button>
                     <Typography
@@ -194,7 +238,11 @@ const PurchaseCards = () => {
                     >
                       {quantity}
                     </Typography>
-                    <Button onClick={increment} variant="outlined" size="small">
+                    <Button
+                      onClick={() => increment(card.id)}
+                      variant="outlined"
+                      size="small"
+                    >
                       +
                     </Button>
                   </Box>

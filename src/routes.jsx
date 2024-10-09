@@ -110,14 +110,7 @@ export default function Router() {
         </PrivateRoute>
       ),
     },
-    {
-      path: "/account-setting",
-      element: (
-        <PrivateRoute>
-          <AccountSetting />
-        </PrivateRoute>
-      ),
-    },
+
     {
       path: "/",
       element: (
