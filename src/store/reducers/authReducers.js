@@ -12,7 +12,7 @@ export const registerSuccess = createAction("REGISTER_SUCCESS");
 export const otpVerifySuccess = createAction("OTP_VERIFY_SUCCESS");
 export const logoutSuccess = createAction("LOGOUT_SUCCESS");
 export const forgotPasswordSuccess = createAction("FORGOT_PASSWORD_SUCCESS");
-export const resendOtpSuccess = createAction("RESEND_OTP_SUCCESS");
+export const changePasswordSuccess = createAction("CHANGE_PASSWORD_SUCCESS");
 
 const authReducer = createReducer(initialState, (builder) => {
   builder
@@ -40,17 +40,25 @@ const authReducer = createReducer(initialState, (builder) => {
     .addCase(logoutSuccess, (state) => {
       return {
         ...state,
-        token: null,
         isAuthenticated: false,
+        token: null,
+        forgetPasswordVerificationToken: null,
         user: null,
       };
     })
-    .addCase(forgotPasswordSuccess, (state) => {
-      // Handle forgot password success if needed
-    })
-    .addCase(resendOtpSuccess, (state, action) => {
+    .addCase(forgotPasswordSuccess, (state, action) => {
       return {
         ...state,
+        forgetPasswordVerificationToken:
+          action.payload.forgetPasswordVerificationToken,
+      };
+    })
+    .addCase(changePasswordSuccess, (state, action) => {
+      return {
+        ...state,
+        token: action.payload.token,
+        user: action.payload.user,
+        isAuthenticated: true,
       };
     });
 });

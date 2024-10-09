@@ -5,7 +5,7 @@ import {
   otpVerifySuccess,
   logoutSuccess,
   forgotPasswordSuccess,
-  resendOtpSuccess,
+  changePasswordSuccess,
 } from "../reducers/authReducers";
 
 export const login = (data) => async (dispatch) => {
@@ -60,8 +60,22 @@ export const verifyOtp = (data) => async (dispatch) => {
       url: "api/verifyOtp",
       data,
     });
-    if (response.status === 200 || response.status === 201) {
+
+    if (
+      data.type === "register" &&
+      (response.status === 200 || response.status === 201)
+    ) {
       dispatch(otpVerifySuccess({ token: response.data.payload.token }));
+      return true;
+    } else if (
+      data.type === "forgot_password" &&
+      (response.status === 200 || response.status === 201)
+    ) {
+      dispatch(
+        forgotPasswordSuccess({
+          forgetPasswordVerificationToken: response.data.payload,
+        })
+      );
       return true;
     }
 
@@ -72,16 +86,15 @@ export const verifyOtp = (data) => async (dispatch) => {
   }
 };
 
-export const resendOtp = (email) => async (dispatch) => {
+export const resendOtp = async (data) => {
   try {
     const response = await request({
       method: "post",
       url: "api/resendOtp",
-      data: { email },
+      data,
     });
 
     if (response.status === 200 || response.status === 201) {
-      dispatch(resendOtpSuccess());
       return true;
     }
 
@@ -92,7 +105,7 @@ export const resendOtp = (email) => async (dispatch) => {
   }
 };
 
-export const forgotPassword = (email) => async (dispatch) => {
+export const forgotPassword = async (email) => {
   try {
     const response = await request({
       method: "post",
@@ -100,13 +113,35 @@ export const forgotPassword = (email) => async (dispatch) => {
       data: { email },
     });
     if (response.status === 200 || response.status === 201) {
-      dispatch(forgotPasswordSuccess());
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error("Forgot password error:", error);
+    return false;
+  }
+};
+
+export const changePassword = (data) => async (dispatch) => {
+  try {
+    const response = await request({
+      method: "post",
+      url: "api/new/password",
+      data,
+    });
+    if (response.status === 200 || response.status === 201) {
+      dispatch(
+        changePasswordSuccess({
+          token: response.data.payload.token,
+          user: response.data.payload.user,
+        })
+      );
       return true;
     }
 
     return false;
   } catch (error) {
-    console.error("Forgot password error:", error);
+    console.error("Change password error:", error);
     return false;
   }
 };

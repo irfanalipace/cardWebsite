@@ -9,11 +9,9 @@ import {
 import { useState } from "react";
 import { z } from "zod";
 import { forgotPassword } from "../../store/actions/authActions";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const ForgetPassword = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -21,13 +19,12 @@ const ForgetPassword = () => {
 
   const emailSchema = z.string().email("Invalid email format");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setLoader(true);
 
     try {
       emailSchema.parse(email);
-      const isSuccess = await dispatch(forgotPassword(email));
+      const isSuccess = await forgotPassword(email);
       if (isSuccess) {
         setError("");
         navigate("/otp-authentication", {
@@ -57,6 +54,7 @@ const ForgetPassword = () => {
         </Typography>
         <TextField
           placeholder="Email Address"
+          type="email"
           variant="outlined"
           fullWidth
           style={styles.textField}

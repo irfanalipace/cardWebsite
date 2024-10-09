@@ -42,7 +42,10 @@ const OtpAuthentications = () => {
   const handleResendOtp = async (e) => {
     e.preventDefault();
     try {
-      const isSuccess = await dispatch(resendOtp(email));
+      const isSuccess = await resendOtp({
+        email: type === "forgot_password" ? forgot_email : email,
+        type,
+      });
       if (isSuccess) {
         setOtp("");
       }
@@ -67,10 +70,12 @@ const OtpAuthentications = () => {
       if (isSuccess && type === "register") {
         setOtp("");
         navigate("/history");
-      } else {
+      } else if (isSuccess && type === "forgot_password") {
         setOtp("");
         navigate("/change-password", {
-          state: { verification_token: "register" },
+          state: {
+            email: forgot_email,
+          },
         });
       }
 
