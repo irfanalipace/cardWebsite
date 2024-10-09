@@ -6,9 +6,8 @@ import { useState } from "react";
 
 const OrderHistoryPurchaseCard = () => {
   const theme = useTheme();
-  const [selectedTab, setSelectedTab] = useState("Order History"); 
+  const [selectedTab, setSelectedTab] = useState("Order History");
 
- 
   const handleTabChange = (newTab) => {
     setSelectedTab(newTab);
   };
@@ -19,7 +18,7 @@ const OrderHistoryPurchaseCard = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "start",
         alignItems: "start",
         gap: 5,
         width: "90%",

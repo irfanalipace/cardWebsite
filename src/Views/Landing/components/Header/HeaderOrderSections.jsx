@@ -23,11 +23,11 @@ const HeaderOrderSections = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const token = useSelector((state) => state.auth?.user?.token);
+  const token = useSelector((state) => state?.auth?.token);
 
   const handleLogout = async () => {
     try {
-      const isSuccess = await dispatch(logout());
+      const isSuccess = await dispatch(logout(token));
       if (isSuccess) {
         navigate("/login");
       }
@@ -226,18 +226,29 @@ const HeaderOrderSections = () => {
             Buy Prepaid Cards
           </Button>
 
-          <Button
-            sx={{
-              backgroundColor: "none",
-              color: "#76c300",
-              fontFamily: "Poppins",
-              "&:hover": { color: "#FF0000" },
-              textTransform: "none",
-            }}
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
+          {token && (
+            <Button
+              sx={{
+                backgroundColor: "none",
+                color: "#76c300",
+                fontFamily: "Poppins",
+                transition:
+                  "color 0.3s ease, font-size 0.3s ease, transform 0.3s ease",
+                "&:hover": {
+                  color: "#FF0000",
+                  backgroundColor: "transparent",
+                  fontSize: "18px",
+                  transform: "translate(-1px)",
+                },
+                textTransform: "none",
+                fontWeight: "bold",
+                translate: 2,
+              }}
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          )}
         </Box>
       </Toolbar>
     </AppBar>

@@ -60,10 +60,10 @@ const Registration = () => {
           email: "",
           password: "",
         });
-        setLoader(false);
         setFormErrors({});
-        navigate("/otp-authentication");
+        navigate("/otp-authentication", { state: { type: "register" } });
       }
+      setLoader(false);
     } catch (error) {
       const formattedErrors = {};
       error.errors.forEach((err) => {

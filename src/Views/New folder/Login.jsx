@@ -56,10 +56,10 @@ const Login = () => {
           email: "",
           password: "",
         });
-        setLoader(false);
         setFormErrors({});
         navigate("/history");
       }
+      setLoader(false);
     } catch (error) {
       const formattedErrors = {};
       setLoader(false);

@@ -5,7 +5,7 @@ import {
   otpVerifySuccess,
   logoutSuccess,
   forgotPasswordSuccess,
-  resendOtpSuccess,
+  changePasswordSuccess,
 } from "../reducers/authReducers";
 
 export const login = (data) => async (dispatch) => {
@@ -57,11 +57,25 @@ export const verifyOtp = (data) => async (dispatch) => {
   try {
     const response = await request({
       method: "post",
-      url: "api/verifyOtp", // Replace with your actual OTP verification endpoint
+      url: "api/verifyOtp",
       data,
     });
-    if (response.status === 200 || response.status === 201) {
+
+    if (
+      data.type === "register" &&
+      (response.status === 200 || response.status === 201)
+    ) {
       dispatch(otpVerifySuccess({ token: response.data.payload.token }));
+      return true;
+    } else if (
+      data.type === "forgot_password" &&
+      (response.status === 200 || response.status === 201)
+    ) {
+      dispatch(
+        forgotPasswordSuccess({
+          forgetPasswordVerificationToken: response.data.payload,
+        })
+      );
       return true;
     }
 
@@ -72,16 +86,15 @@ export const verifyOtp = (data) => async (dispatch) => {
   }
 };
 
-export const resendOtp = (email) => async (dispatch) => {
+export const resendOtp = async (data) => {
   try {
     const response = await request({
       method: "post",
       url: "api/resendOtp",
-      data: { email },
+      data,
     });
 
     if (response.status === 200 || response.status === 201) {
-      dispatch(resendOtpSuccess());
       return true;
     }
 
@@ -92,18 +105,16 @@ export const resendOtp = (email) => async (dispatch) => {
   }
 };
 
-export const forgotPassword = (email) => async (dispatch) => {
+export const forgotPassword = async (email) => {
   try {
     const response = await request({
       method: "post",
-      url: "api/resendOtp", // Replace with your actual forgot password endpoint
+      url: "api/forgot/password",
       data: { email },
     });
     if (response.status === 200 || response.status === 201) {
-      dispatch(forgotPasswordSuccess());
       return true;
     }
-
     return false;
   } catch (error) {
     console.error("Forgot password error:", error);
@@ -111,7 +122,46 @@ export const forgotPassword = (email) => async (dispatch) => {
   }
 };
 
-export const logout = () => (dispatch) => {
-  dispatch(logoutSuccess());
-  return true;  
+export const changePassword = (data) => async (dispatch) => {
+  try {
+    const response = await request({
+      method: "post",
+      url: "api/new/password",
+      data,
+    });
+    if (response.status === 200 || response.status === 201) {
+      dispatch(
+        changePasswordSuccess({
+          token: response.data.payload.token,
+          user: response.data.payload.user,
+        })
+      );
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    console.error("Change password error:", error);
+    return false;
+  }
+};
+
+export const logout = (token) => async (dispatch) => {
+  try {
+    const response = await request({
+      method: "get",
+      url: "api/logout",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.status === 200 || response.status === 201) {
+      dispatch(logoutSuccess());
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error("Logout error:", error);
+    return false;
+  }
 };

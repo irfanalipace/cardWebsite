@@ -4,33 +4,38 @@ import {
   Paper,
   Typography,
   FormHelperText,
+  CircularProgress,
 } from "@mui/material";
 import { useState } from "react";
 import { z } from "zod";
 import { forgotPassword } from "../../store/actions/authActions";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const ForgetPassword = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [loader, setLoader] = useState(false);
+
   const emailSchema = z.string().email("Invalid email format");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    setLoader(true);
 
     try {
       emailSchema.parse(email);
-      const isSuccess = await dispatch(forgotPassword(email));
+      const isSuccess = await forgotPassword(email);
       if (isSuccess) {
         setError("");
-        navigate("/history");
+        navigate("/otp-authentication", {
+          state: { type: "forgot_password", forgot_email: email },
+        });
+        setLoader(false);
       }
     } catch (err) {
       if (err instanceof z.ZodError) {
         setError(err.errors[0].message);
+        setLoader(false);
       }
     }
   };
@@ -49,6 +54,7 @@ const ForgetPassword = () => {
         </Typography>
         <TextField
           placeholder="Email Address"
+          type="email"
           variant="outlined"
           fullWidth
           style={styles.textField}
@@ -73,7 +79,9 @@ const ForgetPassword = () => {
             },
           }}
         />
-        {error && <FormHelperText>{error}</FormHelperText>}
+        {error && (
+          <FormHelperText sx={{ color: "#e60000" }}>{error}</FormHelperText>
+        )}
 
         <Button
           variant="contained"
@@ -88,7 +96,11 @@ const ForgetPassword = () => {
           onClick={handleSubmit}
           disabled={!email}
         >
-          Request Password Change
+          {loader ? (
+            <CircularProgress size={24} sx={{ color: "white" }} />
+          ) : (
+            "Request Password Change"
+          )}
         </Button>
       </Paper>
     </div>
@@ -131,6 +143,7 @@ const styles = {
     fontWeight: "bold",
     cursor: "pointer",
     marginTop: "24px",
+    textTransform: "none",
   },
 };
 
