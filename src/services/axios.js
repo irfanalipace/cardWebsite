@@ -1,111 +1,80 @@
 import axios from "axios";
 import ToastComp from "../components/toast/ToastComp";
+import { store } from "../store/StoreConfig";
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_REACT_APP_URL,
 });
 
+client.interceptors.request.use(
+  (config) => {
+    const token = store.getState()?.auth?.token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 export const request = async ({ ...options }, notify = true) => {
   const onSuccess = (response) => {
     if (notify) {
-      if (response.status === 200) {
-        if (options.method === "delete") {
-          ToastComp({
-            variant: "success",
-            message: response.message
-              ? response.message
-              : "Removed Successfully",
-          });
-        } else if (options.method === "put") {
-          if (notify) {
-            ToastComp({
-              variant: "success",
-              message: response.message
-                ? response.message
-                : "Updated Successfully",
-            });
-          }
-        } else if (options.method === "post") {
-          if (notify) {
-            ToastComp({
-              variant: "success",
-              message: response.data.message
-                ? response.data.message
-                : "Already Added",
-            });
-            return response;
-          } else {
-            ToastComp({
-              variant: "info",
-              message: response.message ? response.message : "Already Added",
-            });
-          }
-          return response;
-        } else if (options.method === "patch") {
-          if (notify) {
-            ToastComp({
-              variant: "success",
-              message: response.message
-                ? response.message
-                : "Updated Successfully",
-            });
-          }
-        } else if (options.method === "get") {
-          if (notify) {
-            ToastComp({
-              variant: "success",
-              message: response.data.message
-                ? response.data.message
-                : "get Successfully",
-            });
-          }
+      const method = options.method.toLowerCase();
+      let message = "";
+
+      if (response.status === 200 || response.status === 201) {
+        switch (method) {
+          case "post":
+            message = response.data.message || "Added Successfully";
+            break;
+          case "put":
+          case "patch":
+            message = response.message || "Updated Successfully";
+            break;
+          case "delete":
+            message = response.message || "Removed Successfully";
+            break;
+          case "get":
+            // Optionally, add message for GET requests
+            message = response.data.message || "Data Retrieved Successfully";
+            break;
+          default:
+            message = "Action Completed";
         }
 
-        return response;
-      } else if (response.status === 201) {
-        if (notify == true) {
-          ToastComp({
-            variant: "success",
-            message: response.message ? response.message : "Added Successfully",
-          });
-          return response;
-        } else {
-          return response;
-        }
+        ToastComp({ variant: "success", message });
       } else {
         ToastComp({
           variant: "error",
-          message: response.message ? response.message : "Error",
+          message: response.message || "Error occurred",
         });
-        return response;
       }
-    } else {
-      return response;
     }
+    return response;
   };
 
   const onError = (error) => {
-    console.log(
-      "Error In Axios interceptor : ",
-      error,
-      error?.response?.data?.message
-    );
+    const errorMessage =
+      error?.response?.data?.message ||
+      error.message ||
+      "Error! Please try again later";
+
     if (notify) {
-      ToastComp({
-        variant: "error",
-        message:
-          error?.response?.data?.message ||
-          error?.message ||
-          "Error ! Try Again Later",
-      });
-      return error;
+      ToastComp({ variant: "error", message: errorMessage });
     }
-    return error;
+    throw error;
   };
 
-  if (options?.url?.includes("tennis")) {
-    return client1(options).then(onSuccess).catch(onError);
-  }
+  try {
+    // Different client logic if necessary
+    if (options?.url?.includes("tennis")) {
+      return await client1(options).then(onSuccess).catch(onError);
+    }
 
-  return client(options).then(onSuccess).catch(onError);
+    return await client(options).then(onSuccess).catch(onError);
+  } catch (err) {
+    console.error("Error in Axios request: ", err);
+    throw err;
+  }
 };

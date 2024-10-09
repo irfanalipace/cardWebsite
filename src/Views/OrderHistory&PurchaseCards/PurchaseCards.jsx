@@ -6,8 +6,9 @@ import {
   CardMedia,
   Grid,
   Typography,
+  CircularProgress,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import violetImage from "../../assets/images/cardimagegrid.png";
 import brownImage from "../../assets/images/cardimagegrid2.png";
 import orangeImage from "../../assets/images/cardimagegrid3.png";
@@ -15,9 +16,12 @@ import violetCardImage from "../../assets/images/cardimagegrid4.png";
 import pinkImage from "../../assets/images/cardimagegrid5.png";
 import azureImage from "../../assets/images/cardimagegrid6.png";
 import { useNavigate } from "react-router-dom";
+import { fetchCards } from "../../store/actions/cardsAction";
 
 const PurchaseCards = () => {
   const navigate = useNavigate();
+  const [cards, setCards] = useState([]);
+  const [loader, setLoader] = useState(false);
 
   const [quantity, setQuantity] = useState(1);
 
@@ -28,6 +32,25 @@ const PurchaseCards = () => {
   const decrement = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
+
+  const getAllCards = async () => {
+    try {
+      setLoader(true);
+      const { success, data } = await fetchCards();
+
+      if (success) {
+        setCards(data);
+      }
+      setLoader(false);
+    } catch (err) {
+      console.log(err.errors[0].message || "Failed to fetch orders");
+      setLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllCards();
+  }, []);
 
   const cardData = [
     {
@@ -90,14 +113,16 @@ const PurchaseCards = () => {
     navigate("/select-payment");
   };
 
-  return (
+  return loader ? (
+    <CircularProgress size={34} sx={{ color: "8AE700" }} />
+  ) : (
     <Grid
       container
       spacing={2}
       justifyContent="center"
       sx={{ padding: { xs: "1rem", sm: "2rem" } }}
     >
-      {cardData.map((card) => {
+      {cards?.map((card) => {
         return (
           <Grid item xs={12} sm={6} md={4} lg={4} key={card.id}>
             <Card
@@ -128,7 +153,7 @@ const PurchaseCards = () => {
                   fontSize: { xs: "12px", sm: "14px" },
                 }}
               >
-                {card.title}
+                {card.color}
               </Box>
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography
@@ -136,7 +161,7 @@ const PurchaseCards = () => {
                   gutterBottom
                   sx={{ fontWeight: "bold", fontFamily: "Poppins" }}
                 >
-                  {card.title}
+                  {card.type}
                 </Typography>
                 <Typography
                   variant="body2"

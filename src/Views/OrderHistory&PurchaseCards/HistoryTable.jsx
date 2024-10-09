@@ -5,30 +5,38 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button, useTheme } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Button, useTheme, CircularProgress } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-
-function createData(name, date, cards, price) {
-  return { name, date, cards, price };
-}
-
-const rows = [
-  createData("12-09-2023", "12-09-2023", "2 Cards", "$300"),
-  createData("12-09-2023", "12-09-2023", "2 Cards", "$300"),
-  createData("12-09-2023", "12-09-2023", "2 Cards", "$300"),
-  createData("12-09-2023", "12-09-2023", "2 Cards", "$300"),
-  createData("12-09-2023", "12-09-2023", "2 Cards", "$300"),
-  createData("12-09-2023", "12-09-2023", "2 Cards", "$300"),
-  createData("12-09-2023", "12-09-2023", "2 Cards", "$300"),
-  createData("12-09-2023", "12-09-2023", "2 Cards", "$300"),
-  createData("12-09-2023", "12-09-2023", "2 Cards", "$300"),
-  createData("12-09-2023", "12-09-2023", "2 Cards", "$300"),
-];
+import { fetchOrders } from "../../store/actions/orderActions";
+import { useEffect, useState } from "react";
 
 export default function HistoryTable() {
+  const [orders, setOrders] = useState();
   const theme = useTheme();
-  return (
+  const [loader, setLoader] = useState(false);
+
+  const getAllOrders = async () => {
+    try {
+      setLoader(true);
+      const { success, data } = await fetchOrders();
+
+      if (success) {
+        setOrders(data);
+      }
+      setLoader(false);
+    } catch (err) {
+      console.log(err.errors[0].message || "Failed to fetch orders");
+      setLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllOrders();
+  }, []);
+
+  return loader ? (
+    <CircularProgress size={34} sx={{ color: "8AE700" }} />
+  ) : (
     <TableContainer
       component={Paper}
       sx={{
@@ -54,25 +62,25 @@ export default function HistoryTable() {
             <TableCell
               sx={{ fontFamily: "Poppins", padding: { xs: "8px", md: "16px" } }}
             >
-              Card Name
+              Payment Method
             </TableCell>
             <TableCell
               align="center"
               sx={{ fontFamily: "Poppins", padding: { xs: "8px", md: "16px" } }}
             >
-              Card Purchase Date
+              User
             </TableCell>
             <TableCell
               align="center"
               sx={{ fontFamily: "Poppins", padding: { xs: "8px", md: "16px" } }}
             >
-              How many Cards
+              Status
             </TableCell>
             <TableCell
               align="center"
               sx={{ fontFamily: "Poppins", padding: { xs: "8px", md: "16px" } }}
             >
-              Price
+              Total Price
             </TableCell>
             <TableCell
               align="center"
@@ -85,9 +93,9 @@ export default function HistoryTable() {
         <TableBody
           sx={{ backgroundColor: theme.palette.custom.tableBodyBackground }}
         >
-          {rows.map((row) => (
+          {orders?.map((order) => (
             <TableRow
-              key={row.name}
+              key={order.id}
               sx={{
                 "&:last-child td, &:last-child th": { border: 0 },
                 fontFamily: "Poppins", // Set Poppins font family for each row
@@ -104,7 +112,7 @@ export default function HistoryTable() {
                   padding: { xs: "8px", md: "16px" }, // Responsive padding
                 }}
               >
-                {row.name}
+                {order?.payment_method}
               </TableCell>
               <TableCell
                 align="center"
@@ -116,7 +124,7 @@ export default function HistoryTable() {
                   padding: { xs: "8px", md: "16px" }, // Responsive padding
                 }}
               >
-                {row.date}
+                {order?.user?.email}
               </TableCell>
               <TableCell
                 align="center"
@@ -128,7 +136,7 @@ export default function HistoryTable() {
                   padding: { xs: "8px", md: "16px" }, // Responsive padding
                 }}
               >
-                {row.cards}
+                {order?.order_status}
               </TableCell>
               <TableCell
                 align="center"
@@ -140,7 +148,7 @@ export default function HistoryTable() {
                   padding: { xs: "8px", md: "16px" }, // Responsive padding
                 }}
               >
-                {row.price}
+                {order?.total_price}
               </TableCell>
               <TableCell
                 align="center"

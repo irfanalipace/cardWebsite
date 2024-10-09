@@ -16,61 +16,115 @@ import Registration from "./Views/Auth/Registration";
 import ForgetPassword from "./Views/Auth/ForgetPassword";
 import VerifyPassword from "./Views/Auth/VerifyPassword";
 import ChangePassword from "./Views/Auth/ChangePassword";
+import PrivateRoute from "./PrivateRoutes";
+import PublicRoute from "./PublicRoutes";
 
 export default function Router() {
   let element = useRoutes([
+    // Public Routes
     {
       path: "/",
-      element: <Landing />,
+      element: (
+        <PublicRoute>
+          <Landing />
+        </PublicRoute>
+      ),
     },
-    {
-      path: "/select-payment",
-      element: <SelectPayment />,
-    },
-    {
-      path: "/order-confirm",
-      element: <ConfirmOrders />,
-    },
-    {
-      path: "/account-setting",
-      element: <AccountSetting />,
-    },
-    {
-      path: "/otp-authentication",
-      element: <OtpAuthentications />,
-    },
+
     {
       path: "/login",
-      element: <Login />,
+      element: (
+        <PublicRoute>
+          <Login />
+        </PublicRoute>
+      ),
     },
     {
       path: "/registration",
-      element: <Registration />,
+      element: (
+        <PublicRoute>
+          <Registration />
+        </PublicRoute>
+      ),
     },
     {
       path: "/forget-password",
-      element: <ForgetPassword />,
+      element: (
+        <PublicRoute>
+          <ForgetPassword />
+        </PublicRoute>
+      ),
+    },
+    {
+      path: "/otp-authentication",
+      element: (
+        <PublicRoute>
+          <OtpAuthentications />
+        </PublicRoute>
+      ),
     },
     {
       path: "/verify-password",
-      element: <VerifyPassword />,
+      element: (
+        <PublicRoute>
+          <VerifyPassword />
+        </PublicRoute>
+      ),
     },
     {
       path: "/change-password",
-      element: <ChangePassword />,
+      element: (
+        <PublicRoute>
+          <ChangePassword />
+        </PublicRoute>
+      ),
     },
     {
       path: "/",
-      element: <InformationLayout />,
+      element: (
+        <PublicRoute>
+          <InformationLayout />
+        </PublicRoute>
+      ),
       children: [
         { path: "contact-us", element: <ContactUs /> },
         { path: "help-center", element: <HelpCenter /> },
         { path: "refund-policy", element: <RefundPolicy /> },
       ],
     },
+
+    //Protected Routes
+    {
+      path: "/select-payment",
+      element: (
+        <PrivateRoute>
+          <SelectPayment />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: "/order-confirm",
+      element: (
+        <PrivateRoute>
+          <ConfirmOrders />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: "/account-setting",
+      element: (
+        <PrivateRoute>
+          <AccountSetting />
+        </PrivateRoute>
+      ),
+    },
     {
       path: "/",
-      element: <HistoryLayout />,
+      element: (
+        <PrivateRoute>
+          <HistoryLayout />
+        </PrivateRoute>
+      ),
       children: [
         { path: "account-setting", element: <AccountSetting /> },
         { path: "notification-setting", element: <NotificationSetting /> },
