@@ -156,12 +156,21 @@ export const logout = (token) => async (dispatch) => {
       },
     });
     if (response.status === 200 || response.status === 201) {
-      dispatch(logoutSuccess());
-      return true;
+      return { success: response.data.success, data: response.data.payload };
     }
-    return false;
+    return {
+      success: false,
+      data: null,
+    };
   } catch (error) {
-    console.error("Logout error:", error);
-    return false;
+    return {
+      success: false,
+      error:
+        error?.response?.data?.message ||
+        error.message ||
+        "Error! Please try again later",
+    };
+  } finally {
+    dispatch(logoutSuccess());
   }
 };

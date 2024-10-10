@@ -2,9 +2,9 @@ import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const PublicRoute = ({ children }) => {
-  const token = useSelector((state) => state?.auth?.token);
+  const isAuthenticated = useSelector((state) => state?.auth?.isAuthenticated);
 
-  return token ? <Navigate to="/history" replace /> : children;
+  return isAuthenticated ? <Navigate to="/history" replace /> : children;
 };
 
 export default PublicRoute;

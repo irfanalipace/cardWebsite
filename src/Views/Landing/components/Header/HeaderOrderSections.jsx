@@ -11,33 +11,37 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  Stack,
+  Avatar,
 } from "@mui/material";
 import { ShoppingCart, KeyboardArrowDown, Menu } from "@mui/icons-material";
 import { useState } from "react";
 import imagelog from "../../../../assets/images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import OptionsMenu from "./OptionsMenu";
+import HamzaProfile from "../../../../assets/images/HamzaProfile.svg";
 import { logout } from "../../../../store/actions/authActions";
 
 const HeaderOrderSections = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const token = useSelector((state) => state?.auth?.token);
-
-  const handleLogout = async () => {
-    try {
-      const isSuccess = await dispatch(logout(token));
-      if (isSuccess) {
-        navigate("/login");
-      }
-    } catch (error) {
-      console.log("logout error", error);
-    }
-  };
+  const user = useSelector((state) => state?.auth?.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout(token));
+    } catch (error) {
+      console.log("logout error", error);
+    } finally {
+      navigate("/login");
+    }
   };
 
   const drawer = (
@@ -71,6 +75,31 @@ const HeaderOrderSections = () => {
         <ListItem disablePadding>
           <ListItemButton>
             <ListItemText primary="Buy Prepaid Cards" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </Box>
+  );
+
+  const bottomDrawer = (
+    <Box sx={{ width: 250 }} onClick={handleDrawerToggle}>
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemText
+              primary="Account Settings"
+              onClick={() => navigate("/account-setting")}
+            />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemText primary="Profile Settings" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton onClick={handleLogout} sx={{ color: "#e60000" }}>
+            <ListItemText primary="Logout" />
           </ListItemButton>
         </ListItem>
       </List>
@@ -127,8 +156,22 @@ const HeaderOrderSections = () => {
           ModalProps={{
             keepMounted: true,
           }}
+          sx={{
+            height: "100%",
+            backgroundColor: "green",
+          }}
         >
-          {drawer}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100%",
+            }}
+          >
+            <div>{drawer}</div>
+            <div>{bottomDrawer}</div>
+          </Box>
         </Drawer>
 
         <Box
@@ -227,27 +270,36 @@ const HeaderOrderSections = () => {
           </Button>
 
           {token && (
-            <Button
+            <Stack
+              direction="row"
               sx={{
-                backgroundColor: "none",
-                color: "#76c300",
-                fontFamily: "Poppins",
-                transition:
-                  "color 0.3s ease, font-size 0.3s ease, transform 0.3s ease",
-                "&:hover": {
-                  color: "#FF0000",
-                  backgroundColor: "transparent",
-                  fontSize: "18px",
-                  transform: "translate(-1px)",
-                },
-                textTransform: "none",
-                fontWeight: "bold",
-                translate: 2,
+                p: 2,
+                gap: 1,
+                alignItems: "center",
+                borderTop: "1px solid",
+                borderColor: "divider",
               }}
-              onClick={handleLogout}
             >
-              Logout
-            </Button>
+              <Avatar
+                sizes="small"
+                alt="Profile"
+                src={
+                  user?.image && typeof user?.image === "string"
+                    ? user?.image
+                    : HamzaProfile
+                }
+                sx={{ width: 36, height: 36 }}
+              />
+              <Box sx={{ mr: "auto" }}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontWeight: 500, lineHeight: "16px", color: "black" }}
+                >
+                  {user?.name}
+                </Typography>
+              </Box>
+              <OptionsMenu />
+            </Stack>
           )}
         </Box>
       </Toolbar>

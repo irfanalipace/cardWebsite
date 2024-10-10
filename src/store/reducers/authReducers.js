@@ -1,6 +1,6 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
 
-const initialState = {
+export const initialState = {
   isAuthenticated: false,
   token: null,
   forgetPasswordVerificationToken: null,
@@ -13,6 +13,7 @@ export const otpVerifySuccess = createAction("OTP_VERIFY_SUCCESS");
 export const logoutSuccess = createAction("LOGOUT_SUCCESS");
 export const forgotPasswordSuccess = createAction("FORGOT_PASSWORD_SUCCESS");
 export const changePasswordSuccess = createAction("CHANGE_PASSWORD_SUCCESS");
+export const updateProfileSuccess = createAction("UPDATE_PROFILE_SUCCESS");
 
 const authReducer = createReducer(initialState, (builder) => {
   builder
@@ -59,6 +60,12 @@ const authReducer = createReducer(initialState, (builder) => {
         token: action.payload.token,
         user: action.payload.user,
         isAuthenticated: true,
+      };
+    })
+    .addCase(updateProfileSuccess, (state, action) => {
+      return {
+        ...state,
+        user: action.payload.user,
       };
     });
 });

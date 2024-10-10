@@ -90,7 +90,7 @@ const Header = () => {
           <Divider
             orientation="vertical"
             flexItem
-            sx={{ height: "40px", margin: "0 16px",  color: "white" }}
+            sx={{ height: "40px", margin: "0 16px", color: "white" }}
           />
         </Box>
 
@@ -98,7 +98,7 @@ const Header = () => {
           edge="start"
           color="inherit"
           aria-label="menu"
-          sx={{ display: { xs: "flex", md: "none" },  color: "white" }}
+          sx={{ display: { xs: "flex", md: "none" }, color: "white" }}
           onClick={handleDrawerToggle}
         >
           <Menu />
@@ -125,7 +125,10 @@ const Header = () => {
           }}
         >
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
+            <Typography
+              variant="body1"
+              sx={{ fontFamily: "Poppins", color: "white" }}
+            >
               Prepaid Cards
             </Typography>
             <KeyboardArrowDown />
@@ -152,35 +155,47 @@ const Header = () => {
           }}
         >
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
+            <Typography
+              variant="body1"
+              sx={{ fontFamily: "Poppins", color: "white" }}
+            >
               Registration Balance
             </Typography>
-            <KeyboardArrowDown style={{  color: "white" }} />
+            <KeyboardArrowDown style={{ color: "white" }} />
           </Box>
 
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
+            <Typography
+              variant="body1"
+              sx={{ fontFamily: "Poppins", color: "white" }}
+            >
               How to Pay
             </Typography>
-            <KeyboardArrowDown style={{  color: "white" }} />
+            <KeyboardArrowDown style={{ color: "white" }} />
           </Box>
 
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
+            <Typography
+              variant="body1"
+              sx={{ fontFamily: "Poppins", color: "white" }}
+            >
               More
             </Typography>
-            <KeyboardArrowDown style={{  color: "white" }} />
+            <KeyboardArrowDown style={{ color: "white" }} />
           </Box>
 
-          <IconButton edge="end" color="inherit" style={{  color: "white" }}>
-            <ShoppingCart style={{  color: "white" }} />
+          <IconButton edge="end" color="inherit" style={{ color: "white" }}>
+            <ShoppingCart style={{ color: "white" }} />
           </IconButton>
 
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" sx={{ fontFamily: "Poppins",  color: "white" }}>
+            <Typography
+              variant="body1"
+              sx={{ fontFamily: "Poppins", color: "white" }}
+            >
               $90.90
             </Typography>
-            <KeyboardArrowDown style={{  color: "white" }} />
+            <KeyboardArrowDown style={{ color: "white" }} />
           </Box>
 
           <Button

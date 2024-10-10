@@ -1,11 +1,90 @@
-import { Box, Grid, Typography, Button, Avatar, useTheme } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Typography,
+  Button,
+  Avatar,
+  useTheme,
+  CircularProgress,
+} from "@mui/material";
 
 import HamzaProfile from "../../assets/images/HamzaProfile.svg";
-import FormField from "./FormField";
-import PasswordField from "./PasswordField";
+import FormField from "../Auth/FormField";
+import PasswordField from "../Auth/PasswordField";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile } from "../../store/actions/accountSettingActions";
 
 const AccountSetting = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
+  const user = useSelector((state) => state?.auth?.user);
+  const [loader, setLoader] = useState(false);
+  const fileInputRef = useRef(null);
+  const [formValues, setFormValues] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    image: null,
+    current_password: "",
+    new_password: "",
+    new_password_confirmation: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: name === "image" ? event.target?.files[0] : value,
+    });
+  };
+
+  const handleChangeImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      setLoader(true);
+      const formData = new FormData();
+      formData.append("name", formValues.name);
+      formData.append("phone", formValues.phone);
+      formData.append("address", formValues.address);
+      formData.append("image", formValues.image);
+      formData.append("current_password", formValues.current_password);
+      formData.append("new_password", formValues.new_password);
+      formData.append(
+        "new_password_confirmation",
+        formValues.new_password_confirmation
+      );
+
+      const { success, data } = await dispatch(updateProfile(formData));
+      if (success) {
+        setFormValues((prevData) => ({ ...prevData, ...data }));
+      }
+    } catch (err) {
+      console.log(err.errors[0].message || "Failed to update profile");
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  console.log(user.image);
+
+  useEffect(() => {
+    if (user) {
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        name: user.name || "",
+        phone: user.phone || "",
+        address: user.address || "",
+        image: user.image || null,
+      }));
+    }
+  }, [user]);
 
   return (
     <Box
@@ -46,34 +125,42 @@ const AccountSetting = () => {
           </Typography>
 
           <Grid container spacing={3}>
-            {/* First Name */}
-            <Grid item xs={12} md={6}>
-              <FormField label={"First Name"} defaultValue="Hamza Yasin" />
-            </Grid>
-
-            {/* Last Name */}
-            <Grid item xs={12} md={6}>
-              <FormField label={"Last Name"} defaultValue="Hamza Yasin" />
-            </Grid>
-
-            {/* Email */}
+            {/* Full Name */}
             <Grid item xs={12} md={6}>
               <FormField
-                label={"Email"}
-                defaultValue="hamzayasin499@gmail.com"
+                label={"Full Name"}
+                placeholder="Hamza Yasin"
+                name={"name"}
+                type={"text"}
+                formControlStyle={{ marginTop: 3 }}
+                value={formValues.name}
+                onChange={handleInputChange}
               />
             </Grid>
 
             {/* Phone Number */}
             <Grid item xs={12} md={6}>
-              <FormField label={"Phone Number"} defaultValue="+92 3001234567" />
+              <FormField
+                label={"Phone Number"}
+                placeholder="+92 3001234567"
+                name={"phone"}
+                type={"text"}
+                formControlStyle={{ marginTop: 3 }}
+                value={formValues.phone}
+                onChange={handleInputChange}
+              />
             </Grid>
 
             {/* Address */}
             <Grid item xs={12}>
               <FormField
                 label={"Address"}
-                defaultValue="DHA Phase 8, Broadway, Block D, Fifth Floor, building 120"
+                placeholder="DHA Phase 8, Broadway, Block D, Fifth Floor, building 120"
+                name={"address"}
+                type={"text"}
+                formControlStyle={{ marginTop: 3 }}
+                value={formValues.address}
+                onChange={handleInputChange}
               />
             </Grid>
           </Grid>
@@ -96,7 +183,12 @@ const AccountSetting = () => {
             <Grid item xs={12}>
               <PasswordField
                 label={"Current Password "}
-                defaultValue="Hamza Yasin"
+                name={"current_password"}
+                type={"password"}
+                placeholder={"**************"}
+                formControlStyle={{ marginTop: 1 }}
+                value={formValues.current_password}
+                onChange={handleInputChange}
               />
             </Grid>
 
@@ -104,15 +196,25 @@ const AccountSetting = () => {
             <Grid item xs={12}>
               <PasswordField
                 label={"New Password"}
-                defaultValue="Hamza Yasin"
+                name={"new_password"}
+                type={"password"}
+                placeholder={"**************"}
+                formControlStyle={{ marginTop: 1 }}
+                value={formValues.new_password}
+                onChange={handleInputChange}
               />
             </Grid>
 
             {/* Retype New Password */}
             <Grid item xs={12}>
               <PasswordField
-                label={"Retype New Passwor"}
-                defaultValue="Hamza Yasin"
+                label={"Retype New Password"}
+                name={"new_password_confirmation"}
+                type={"password"}
+                placeholder={"**************"}
+                formControlStyle={{ marginTop: 1 }}
+                value={formValues.new_password_confirmation}
+                onChange={handleInputChange}
               />
             </Grid>
           </Grid>
@@ -148,8 +250,13 @@ const AccountSetting = () => {
                 fontSize: { xs: "13px", md: "18px" },
                 textTransform: "none",
               }}
+              onClick={handleProfileUpdate}
             >
-              Update
+              {loader ? (
+                <CircularProgress size={24} sx={{ color: "white" }} />
+              ) : (
+                "Update"
+              )}
             </Button>
           </Box>
         </Grid>
@@ -160,17 +267,33 @@ const AccountSetting = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "start", // Align Avatar and Button in the same row
+              alignItems: "start",
               justifyContent: { xs: "center", md: "flex-start" },
-              gap: 2, // Space between Avatar and Button
-              mt: { xs: 2, md: 0 }, // Add margin-top on small screens
+              gap: 2,
+              mt: { xs: 2, md: 0 },
             }}
           >
             <Avatar
-              src={HamzaProfile} // Profile Picture URL
+              src={
+                formValues.image instanceof File
+                  ? URL.createObjectURL(formValues.image)
+                  : user.image && typeof user.image === "string"
+                  ? user.image
+                  : HamzaProfile
+              } // Profile Picture URL
               sx={{ width: "130px", height: "132px", borderRadius: "18px" }}
             />
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleInputChange}
+            />
             <Button
+              type="button"
+              name="image"
               variant="contained"
               sx={{
                 backgroundColor: theme.palette.custom.benefitCardImg,
@@ -181,6 +304,7 @@ const AccountSetting = () => {
                 fontSize: { xs: "13px", md: "18px" },
                 textTransform: "none",
               }}
+              onClick={handleChangeImageClick}
             >
               Change
             </Button>

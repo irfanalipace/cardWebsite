@@ -34,12 +34,14 @@ const Registration = () => {
     name: "",
     email: "",
     password: "",
+    password_confirmation: "",
   });
 
   const [formErrors, setFormErrors] = useState({
     name: "",
     email: "",
     password: "",
+    password_confirmation: "",
   });
 
   const handleInputChange = (e) => {
@@ -59,18 +61,20 @@ const Registration = () => {
           name: "",
           email: "",
           password: "",
+          password_confirmation: "",
         });
         setFormErrors({});
         navigate("/otp-authentication", { state: { type: "register" } });
       }
-      setLoader(false);
     } catch (error) {
       const formattedErrors = {};
       error.errors.forEach((err) => {
         formattedErrors[err.path[0]] = err.message;
       });
-      setLoader(false);
+
       setFormErrors(formattedErrors);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -142,12 +146,24 @@ const Registration = () => {
             name={"password"}
             label={"Password"}
             type={"password"}
-            defaultValue={"**************"}
+            placeholder={"**************"}
             formControlStyle={{ marginTop: 1 }}
             value={formValues.password}
             onChange={handleInputChange}
             error={!!formErrors.password}
             helperText={formErrors.password}
+          />
+
+          <PasswordField
+            name={"password_confirmation"}
+            label={"Confirm Password"}
+            type={"password"}
+            placeholder={"**************"}
+            formControlStyle={{ marginTop: 1 }}
+            value={formValues.password_confirmation}
+            onChange={handleInputChange}
+            error={!!formErrors.password_confirmation}
+            helperText={formErrors.password_confirmation}
           />
 
           <Stack
