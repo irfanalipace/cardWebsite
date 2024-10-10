@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -6,6 +6,7 @@ import {
   Stack,
   TextField,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { theme } from "../../Theme";
 import { contactApi } from "../../store/actions/contactActions";
@@ -17,44 +18,41 @@ const ContactForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
 
-  // State for validation errors
   const [errors, setErrors] = useState({});
+  const [loader, setLoader] = useState(false);
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent the default form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoader(true);
+      setErrors({});
 
-    // Reset errors
-    setErrors({});
+      const orderData = {
+        name: `${firstName} ${lastName}`,
+        email,
+        message,
+        phoneNumber,
+      };
 
-    // Create the order object with the relevant data
-    const orderData = {
-      name: `${firstName} ${lastName}`,
-      email: email,
-      message: message,
-      phoneNumber: phoneNumber, // Optionally include phone number
-    };
+      const { success } = await contactApi(orderData);
 
-    // Log the payload to verify values
-    console.log("Payload to be sent:", orderData);
-
-    // Call the contact API with the order data
-    contactApi(orderData).then(response => {
-      if (response.success) {
-        // Handle success (reset the form, show a success message, etc.)
+      if (success) {
         setFirstName("");
         setLastName("");
         setEmail("");
         setPhoneNumber("");
         setMessage("");
-      } else {
-        // Handle API validation errors
-        setErrors(response.payload);
       }
-    }).catch(error => {
-      // Handle any other errors
-      console.error("API error:", error);
-    });
+    } catch (error) {
+      const formattedErrors = error.errors.reduce((acc, err) => {
+        acc[err.path[0]] = err.message;
+        return acc;
+      }, {});
+
+      setErrors(formattedErrors);
+    } finally {
+      setLoader(false);
+    }
   };
 
   return (
@@ -79,8 +77,10 @@ const ContactForm = () => {
             fullWidth
             variant="outlined"
           />
-          {errors.name && (
-            <Typography color="error" variant="body2">{errors.name}</Typography>
+          {errors?.name && (
+            <Typography color="error" variant="body2">
+              {errors?.name}
+            </Typography>
           )}
         </Grid>
         <Grid item xs={11.8} md={5.8}>
@@ -102,11 +102,12 @@ const ContactForm = () => {
             fullWidth
             variant="outlined"
           />
-          {errors.email && (
-            <Typography color="error" variant="body2">{errors.email}</Typography>
+          {errors?.email && (
+            <Typography color="error" variant="body2">
+              {errors?.email}
+            </Typography>
           )}
         </Grid>
-     
 
         <Grid item xs={11.8}>
           <TextField
@@ -119,8 +120,10 @@ const ContactForm = () => {
             multiline
             rows={4} // Optional for multiline messages
           />
-          {errors.message && (
-            <Typography color="error" variant="body2">{errors.message}</Typography>
+          {errors?.message && (
+            <Typography color="error" variant="body2">
+              {errors?.message}
+            </Typography>
           )}
         </Grid>
       </Grid>
@@ -140,7 +143,11 @@ const ContactForm = () => {
             py: 1.3,
           }}
         >
-          Send Message
+          {loader ? (
+            <CircularProgress size={24} color={"white"} />
+          ) : (
+            "Send Message"
+          )}
         </Button>
       </Stack>
     </Box>
