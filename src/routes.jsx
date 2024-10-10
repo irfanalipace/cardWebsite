@@ -13,12 +13,12 @@ import OrderHistoryPurchaseCard from "./Views/OrderHistory&PurchaseCards";
 
 import PrivateRoute from "./PrivateRoutes";
 import PublicRoute from "./PublicRoutes";
-import OtpAuthentications from "./Views/New folder/OtpAuthentications";
-import Registration from "./Views/New folder/Registration";
-import Login from "./Views/New folder/Login";
-import ForgetPassword from "./Views/New folder/ForgetPassword";
-import VerifyPassword from "./Views/New folder/VerifyPassword";
-import ChangePassword from "./Views/New folder/ChangePassword";
+import OtpAuthentications from "./Views/Auth/OtpAuthentications";
+import Registration from "./Views/Auth/Registration";
+import Login from "./Views/Auth/Login";
+import ForgetPassword from "./Views/Auth/ForgetPassword";
+import VerifyPassword from "./Views/Auth/VerifyPassword";
+import ChangePassword from "./Views/Auth/ChangePassword";
 
 export default function Router() {
   let element = useRoutes([
@@ -36,7 +36,7 @@ export default function Router() {
       path: "/login",
       element: (
         <PublicRoute>
-        <Login />
+          <Login />
         </PublicRoute>
       ),
     },
@@ -44,7 +44,7 @@ export default function Router() {
       path: "/registration",
       element: (
         <PublicRoute>
-        <Registration />
+          <Registration />
         </PublicRoute>
       ),
     },
@@ -52,7 +52,7 @@ export default function Router() {
       path: "/forget-password",
       element: (
         <PublicRoute>
-      <ForgetPassword />
+          <ForgetPassword />
         </PublicRoute>
       ),
     },
@@ -60,7 +60,7 @@ export default function Router() {
       path: "/otp-authentication",
       element: (
         <PublicRoute>
-         <OtpAuthentications />
+          <OtpAuthentications />
         </PublicRoute>
       ),
     },
@@ -68,7 +68,7 @@ export default function Router() {
       path: "/verify-password",
       element: (
         <PublicRoute>
-       <VerifyPassword />
+          <VerifyPassword />
         </PublicRoute>
       ),
     },
