@@ -277,8 +277,8 @@ const AccountSetting = () => {
               src={
                 formValues.image instanceof File
                   ? URL.createObjectURL(formValues.image)
-                  : user.image && typeof user.image === "string"
-                  ? user.image
+                  : formValues.image && typeof formValues.image === "string"
+                  ? formValues.image
                   : HamzaProfile
               } // Profile Picture URL
               sx={{ width: "130px", height: "132px", borderRadius: "18px" }}
