@@ -26,6 +26,7 @@ export const theme = createTheme({
       delete: "#FF0000",
       deleteHover: "#e60000",
       green: "#39e600",
+      headerGreen: "#345307",
       getInTouchDescription: "#929292",
       howToBuyAccordion: "#EAF0EF",
       helpCardBorder: "#00000040",

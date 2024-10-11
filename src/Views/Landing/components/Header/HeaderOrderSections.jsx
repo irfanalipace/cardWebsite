@@ -13,6 +13,7 @@ import {
   ListItemText,
   Stack,
   Avatar,
+  Badge,
 } from "@mui/material";
 import { ShoppingCart, KeyboardArrowDown, Menu } from "@mui/icons-material";
 import { useState } from "react";
@@ -22,11 +23,14 @@ import { useDispatch, useSelector } from "react-redux";
 import OptionsMenu from "./OptionsMenu";
 import HamzaProfile from "../../../../assets/images/HamzaProfile.svg";
 import { logout } from "../../../../store/actions/authActions";
+import { calculateTotalPrice } from "../../../../utils/helper";
 
 const HeaderOrderSections = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const token = useSelector((state) => state?.auth?.token);
+  const isAuthenticated = useSelector((state) => state?.auth?.isAuthenticated);
   const user = useSelector((state) => state?.auth?.user);
+  const cartItems = useSelector((state) => state?.cart?.items);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -37,6 +41,7 @@ const HeaderOrderSections = () => {
   const handleLogout = async () => {
     try {
       await dispatch(logout(token));
+      dispatch({ type: "CLEAR_ITEM", payload: [] });
     } catch (error) {
       console.log("logout error", error);
     } finally {
@@ -108,12 +113,12 @@ const HeaderOrderSections = () => {
 
   return (
     <AppBar
-      position="absolute"
+      position="fixed"
       sx={{
         top: 0,
         left: 0,
         right: 0,
-        backgroundColor: "transparent",
+        backgroundColor: "white",
         boxShadow: "none",
         padding: "0 1rem",
         zIndex: 2,
@@ -243,19 +248,27 @@ const HeaderOrderSections = () => {
             <KeyboardArrowDown style={{ color: "black" }} />
           </Box>
 
-          <IconButton edge="end" color="inherit" style={{ color: "black" }}>
-            <ShoppingCart style={{ color: "black" }} />
+          <IconButton edge="end" color="inherit" style={{ color: "white" }}>
+            <Badge
+              badgeContent={cartItems.length}
+              color="secondary"
+              invisible={cartItems.length === 0}
+            >
+              <ShoppingCart style={{ color: "black" }} />
+            </Badge>
           </IconButton>
 
-          <Box display="flex" alignItems="center">
-            <Typography
-              variant="body1"
-              sx={{ fontFamily: "Poppins", color: "black" }}
-            >
-              $90.90
-            </Typography>
-            <KeyboardArrowDown style={{ color: "black" }} />
-          </Box>
+          {cartItems.length && (
+            <Box display="flex" alignItems="center">
+              <Typography
+                variant="body1"
+                sx={{ fontFamily: "Poppins", color: "black" }}
+              >
+                ${`${calculateTotalPrice(cartItems)}`}
+              </Typography>
+              <KeyboardArrowDown style={{ color: "black" }} />
+            </Box>
+          )}
 
           <Button
             variant="contained"
@@ -269,7 +282,7 @@ const HeaderOrderSections = () => {
             Buy Prepaid Cards
           </Button>
 
-          {token && (
+          {isAuthenticated && (
             <Stack
               direction="row"
               sx={{

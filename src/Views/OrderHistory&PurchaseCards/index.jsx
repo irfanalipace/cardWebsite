@@ -7,6 +7,7 @@ import { useState } from "react";
 const OrderHistoryPurchaseCard = () => {
   const theme = useTheme();
   const [selectedTab, setSelectedTab] = useState("Order History");
+  const [cards, setCards] = useState([]);
 
   const handleTabChange = (newTab) => {
     setSelectedTab(newTab);
@@ -33,7 +34,11 @@ const OrderHistoryPurchaseCard = () => {
         selectedTab={selectedTab}
         onTabChange={handleTabChange}
       />
-      {selectedTab === "Order History" ? <HistoryTable /> : <PurchaseCards />}
+      {selectedTab === "Order History" ? (
+        <HistoryTable />
+      ) : (
+        <PurchaseCards cards={cards} setCards={setCards} />
+      )}
     </Box>
   );
 };

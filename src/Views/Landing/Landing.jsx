@@ -9,6 +9,8 @@ import heroimage from "../../assets/images/vector.png";
 import OfferSections from "./components/Content/HomePage/OfferSections";
 import PrepaidCard from "./components/Content/HomePage/PrepaidCard";
 import ConfirmOrders from "./components/Content/OrderPages/ConfirmOrders";
+import CheckYourCart from "../SelectPayment/components/CheckYourCart";
+import { useSelector } from "react-redux";
 
 const StyledRoot = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
@@ -36,6 +38,7 @@ const MainContent = styled(Box)(({ theme }) => ({
 }));
 
 const Landing = () => {
+  const cartItems = useSelector((state) => state?.cart?.items);
   return (
     <StyledRoot>
       <BackgroundImage />
@@ -46,6 +49,7 @@ const Landing = () => {
         <OfferSections />
         <PrepaidCard />
         <Discount />
+        {!!cartItems.length && <CheckYourCart />}
         <KeyBenefits />
         <HowToBuy />
       </MainContent>

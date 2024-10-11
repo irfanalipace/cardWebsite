@@ -11,13 +11,26 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  Stack,
+  Avatar,
+  useTheme,
+  Badge,
 } from "@mui/material";
 import { ShoppingCart, KeyboardArrowDown, Menu } from "@mui/icons-material";
-import React, { useState } from "react";
+import { useState } from "react";
 import imagelog from "../../../../assets/images/logo.png";
 import { Link } from "react-router-dom";
+import OptionsMenu from "./OptionsMenu";
+import { useSelector } from "react-redux";
+import HamzaProfile from "../../../../assets/images/HamzaProfile.svg";
+import { calculateTotalPrice } from "../../../../utils/helper";
 
 const Header = () => {
+  const theme = useTheme();
+  const user = useSelector((state) => state?.auth?.user);
+  const isAuthenticated = useSelector((state) => state?.auth?.isAuthenticated);
+  const cartItems = useSelector((state) => state?.cart?.items);
+
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -63,12 +76,12 @@ const Header = () => {
 
   return (
     <AppBar
-      position="absolute"
+      position="fixed"
       sx={{
         top: 0,
         left: 0,
         right: 0,
-        backgroundColor: "transparent",
+        backgroundColor: theme.palette.custom.headerGreen,
         boxShadow: "none",
         padding: "0 1rem",
         zIndex: 2,
@@ -185,18 +198,26 @@ const Header = () => {
           </Box>
 
           <IconButton edge="end" color="inherit" style={{ color: "white" }}>
-            <ShoppingCart style={{ color: "white" }} />
+            <Badge
+              badgeContent={cartItems.length}
+              color="secondary"
+              invisible={cartItems.length === 0}
+            >
+              <ShoppingCart style={{ color: "white" }} />
+            </Badge>
           </IconButton>
 
-          <Box display="flex" alignItems="center">
-            <Typography
-              variant="body1"
-              sx={{ fontFamily: "Poppins", color: "white" }}
-            >
-              $90.90
-            </Typography>
-            <KeyboardArrowDown style={{ color: "white" }} />
-          </Box>
+          {cartItems.length && (
+            <Box display="flex" alignItems="center">
+              <Typography
+                variant="body1"
+                sx={{ fontFamily: "Poppins", color: "white" }}
+              >
+                ${`${calculateTotalPrice(cartItems)}`}
+              </Typography>
+              <KeyboardArrowDown style={{ color: "white" }} />
+            </Box>
+          )}
 
           <Button
             variant="contained"
@@ -209,6 +230,38 @@ const Header = () => {
           >
             Buy Prepaid Cards
           </Button>
+          {isAuthenticated && (
+            <Stack
+              direction="row"
+              sx={{
+                p: 2,
+                gap: 1,
+                alignItems: "center",
+                borderTop: "1px solid",
+                borderColor: "divider",
+              }}
+            >
+              <Avatar
+                sizes="small"
+                alt="Profile"
+                src={
+                  user?.image && typeof user?.image === "string"
+                    ? user?.image
+                    : HamzaProfile
+                }
+                sx={{ width: 36, height: 36 }}
+              />
+              <Box sx={{ mr: "auto" }}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontWeight: 500, lineHeight: "16px" }}
+                >
+                  {user?.name}
+                </Typography>
+              </Box>
+              <OptionsMenu color="white" />
+            </Stack>
+          )}
         </Box>
       </Toolbar>
     </AppBar>

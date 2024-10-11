@@ -3,9 +3,21 @@ import { Stack, Typography, Box } from "@mui/material";
 import DeleteIcon from "../../../../assets/images/Delete-icon.svg";
 import SelectInput from "../SelectInput";
 import SubscribeGetOffer from "../Subscribe&Offer";
+import { useDispatch, useSelector } from "react-redux";
+import { calculateTotalPrice } from "../../../../utils/helper";
 
 const CheckYourCart = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
+  const cartItems = useSelector((state) => state?.cart?.items);
+  console.log(cartItems);
+
+  const deleteCartItem = (itemId) => {
+    console.log("delte functio======");
+
+    dispatch({ type: "REMOVE_ITEM", payload: itemId });
+  };
+
   return (
     <Stack sx={{ direction: "column", gap: 6, py: 5 }}>
       <Stack
@@ -27,62 +39,77 @@ const CheckYourCart = () => {
         >
           Check Your Cart
         </Typography>
+
         <Stack
-          sx={{ justifyContent: "center", alignItems: "center", width: "100%" }}
+          sx={{
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            gap: 2,
+          }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "50%",
-              backgroundColor: theme.palette.custom.cartTextBackground,
-              p: 1.4,
-              borderRadius: "7px",
-            }}
-          >
-            <Typography
-              sx={{
-                fontFamily: "poppins",
-                fontWeight: 500,
-                color: theme.palette.custom.black,
-                fontSize: "16px",
-              }}
-            >
-              100 CAD Brown Mastercard
-            </Typography>
-            <Typography
-              component={"Box"}
+          {cartItems?.map((item) => (
+            <Box
+              key={item?.id}
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                gap: 2,
+                width: "50%",
+                backgroundColor: theme.palette.custom.cartTextBackground,
+                p: 1.4,
+                borderRadius: "7px",
               }}
             >
               <Typography
-                component={"span"}
                 sx={{
-                  color: theme.palette.custom.cartTextGray,
+                  fontFamily: "poppins",
                   fontWeight: 500,
+                  color: theme.palette.custom.black,
                   fontSize: "16px",
                 }}
               >
-                $10999 X 5
+                {item?.type}
               </Typography>
               <Typography
-                component={"span"}
+                component={"Box"}
                 sx={{
-                  color: theme.palette.custom.cartTextPurple,
-                  fontWeight: 700,
-                  fontSize: "16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 2,
                 }}
               >
-                $4554
+                <Typography
+                  component={"span"}
+                  sx={{
+                    color: theme.palette.custom.cartTextGray,
+                    fontWeight: 500,
+                    fontSize: "16px",
+                  }}
+                >
+                  ${item?.price} X {item?.quantity}
+                </Typography>
+                <Typography
+                  component={"span"}
+                  sx={{
+                    color: theme.palette.custom.cartTextPurple,
+                    fontWeight: 700,
+                    fontSize: "16px",
+                  }}
+                >
+                  ${item?.totalPrice}
+                </Typography>
+                <img
+                  src={DeleteIcon}
+                  alt="delete-icon"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => deleteCartItem(item?.id)}
+                />
               </Typography>
-              <img src={DeleteIcon} alt="delete-icon" />
-            </Typography>
-          </Box>
+            </Box>
+          ))}
+
           <Box
             sx={{
               display: "flex",
@@ -111,7 +138,7 @@ const CheckYourCart = () => {
                 fontSize: "22px",
               }}
             >
-              $4554
+              ${calculateTotalPrice(cartItems)}
             </Typography>
           </Box>
           <Box

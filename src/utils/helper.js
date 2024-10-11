@@ -5,3 +5,9 @@ export function truncateString(str, num) {
     return str;
   }
 }
+
+export function calculateTotalPrice(arr) {
+  return arr?.reduce((acc, current) => {
+    return acc + (current?.totalPrice || 0);
+  }, 0);
+}

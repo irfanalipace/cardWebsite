@@ -25,11 +25,7 @@ export default function Router() {
     // Public Routes
     {
       path: "/",
-      element: (
-        <PublicRoute>
-          <Landing />
-        </PublicRoute>
-      ),
+      element: <Landing />,
     },
 
     {

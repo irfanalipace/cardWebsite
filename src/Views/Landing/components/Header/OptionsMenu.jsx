@@ -19,7 +19,7 @@ const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0",
 });
 
-export default function OptionsMenu() {
+export default function OptionsMenu({ color = "black" }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -37,6 +37,7 @@ export default function OptionsMenu() {
   const handleLogout = async () => {
     try {
       await dispatch(logout(token));
+      dispatch({ type: "CLEAR_ITEM", payload: [] });
     } catch (error) {
       console.log("logout error", error);
     } finally {
@@ -51,7 +52,7 @@ export default function OptionsMenu() {
         onClick={handleClick}
         sx={{ borderColor: "transparent" }}
       >
-        <KeyboardArrowDown style={{ color: "black" }} />
+        <KeyboardArrowDown style={{ color }} />
       </MenuButton>
       <Menu
         anchorEl={anchorEl}

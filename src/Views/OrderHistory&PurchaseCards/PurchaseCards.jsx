@@ -3,41 +3,33 @@ import {
   Button,
   Card,
   CardContent,
-  CardMedia,
   Grid,
   Typography,
   CircularProgress,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import violetImage from "../../assets/images/cardimagegrid.png";
-import brownImage from "../../assets/images/cardimagegrid2.png";
-import orangeImage from "../../assets/images/cardimagegrid3.png";
-import violetCardImage from "../../assets/images/cardimagegrid4.png";
-import pinkImage from "../../assets/images/cardimagegrid5.png";
-import azureImage from "../../assets/images/cardimagegrid6.png";
 import { useNavigate } from "react-router-dom";
 import { fetchCards } from "../../store/actions/cardsAction";
 import moment from "moment";
+import { useSelector, useDispatch } from "react-redux";
+import ToastComp from "../../components/toast/ToastComp";
 
-const PurchaseCards = () => {
+const PurchaseCards = ({ cards, setCards }) => {
   const navigate = useNavigate();
-  const [cards, setCards] = useState([]);
+  const dispatch = useDispatch();
+
   const [loader, setLoader] = useState(false);
-
-  const [quantities, setQuantities] = useState({});
-
-  const increment = (id) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [id]: (prev[id] || 0) + 1,
-    }));
-  };
-
-  const decrement = (id) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [id]: Math.max((prev[id] || 1) - 1, 1),
-    }));
+  const isAuthenticated = useSelector((state) => state?.auth?.isAuthenticated);
+ 
+  const handleQuantityChange = (index, delta) => {
+    setCards((prevCards) => {
+      const newCards = [...prevCards]; // Clone the array
+      const card = newCards[index];
+      const newQuantity = Math.max((card.quantity || 1) + delta, 1); // Ensure quantity does not go below 1
+      card.quantity = newQuantity; // Update card's quantity
+      card.totalPrice = card.price * newQuantity; // Calculate total price based on updated quantity
+      return newCards; // Return new state
+    });
   };
 
   const getAllCards = async () => {
@@ -50,7 +42,7 @@ const PurchaseCards = () => {
       }
       setLoader(false);
     } catch (err) {
-      console.log(err.errors[0].message || "Failed to fetch orders");
+      console.error(err.message || "Failed to fetch orders");
       setLoader(false);
     }
   };
@@ -59,75 +51,25 @@ const PurchaseCards = () => {
     getAllCards();
   }, []);
 
-  const cardData = [
-    {
-      id: 1,
-      title: "Violet Card",
-      description:
-        "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur.",
-      image: violetImage,
-      color: "#800080",
-      price: 20,
-    },
-    {
-      id: 2,
-      title: "Brown Card",
-      description:
-        "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur.",
-      image: brownImage,
-      color: "#8B4513",
-      price: 25,
-    },
-    {
-      id: 3,
-      title: "Orange Card",
-      description:
-        "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur.",
-      image: orangeImage,
-      color: "#FFA500",
-      price: 30,
-    },
-    {
-      id: 4,
-      title: "Violet Card",
-      description:
-        "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur.",
-      image: violetCardImage,
-      color: "#800080",
-      price: 20,
-    },
-    {
-      id: 5,
-      title: "Pink Card",
-      description:
-        "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur.",
-      image: pinkImage,
-      color: "#FFC0CB",
-      price: 15,
-    },
-    {
-      id: 6,
-      title: "Azure Card",
-      description:
-        "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur.",
-      image: azureImage,
-      color: "#007FFF",
-      price: 22,
-    },
-  ];
-
-  const handleNavigate = () => {
-    navigate("/select-payment");
+  const handleAddToCart = (cartItem) => {
+    if (!isAuthenticated) {
+      ToastComp({
+        variant: "error",
+        message: "Please Login to add item to cart",
+      });
+      navigate("/login");
+    } else {
+      dispatch({ type: "ADD_ITEM", payload: cartItem });
+    }
   };
 
   return loader ? (
-    <CircularProgress size={34} sx={{ color: "8AE700" }} />
+    <CircularProgress size={34} sx={{ color: "#8AE700" }} />
   ) : (
     <Grid container spacing={2} sx={{ padding: { xs: "1rem", sm: "2rem" } }}>
-      {cards?.map((card) => {
-        const quantity = quantities[card.id] || 1;
+      {cards?.map((card, index) => {
         return (
-          <Grid item xs={12} sm={6} md={4} lg={4} key={card.id}>
+          <Grid item xs={12} sm={6} md={4} lg={4} key={card?.id}>
             <Card
               sx={{
                 height: "100%",
@@ -137,18 +79,12 @@ const PurchaseCards = () => {
                 position: "relative",
               }}
             >
-              <CardMedia
-                component="img"
-                height="140"
-                image={violetCardImage}
-                alt={card.title}
-              />
               <Box
                 sx={{
                   position: "absolute",
                   top: 0,
                   right: 0,
-                  backgroundColor: card.color,
+                  backgroundColor: card?.color,
                   color: "white",
                   padding: "0.5rem",
                   borderBottomLeftRadius: "8px",
@@ -156,7 +92,7 @@ const PurchaseCards = () => {
                   fontSize: { xs: "12px", sm: "14px" },
                 }}
               >
-                {card.color}
+                {card?.color}
               </Box>
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography
@@ -164,7 +100,7 @@ const PurchaseCards = () => {
                   gutterBottom
                   sx={{ fontWeight: "bold", fontFamily: "Poppins" }}
                 >
-                  {card.type}
+                  {card?.type}
                 </Typography>
 
                 {/* Balance */}
@@ -186,11 +122,35 @@ const PurchaseCards = () => {
                       fontSize: { xs: "12px", sm: "14px" },
                     }}
                   >
-                    {card.balance}
+                    {card?.balance}
                   </Typography>
                 </Box>
 
-                {/* Create Date */}
+                {/* Currency */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                    Currency:
+                  </Typography>
+
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontFamily: "Poppins",
+                      fontSize: { xs: "12px", sm: "14px" },
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {card?.currency}
+                  </Typography>
+                </Box>
+
+                {/* Created At */}
                 <Box
                   sx={{
                     display: "flex",
@@ -209,7 +169,7 @@ const PurchaseCards = () => {
                       fontSize: { xs: "12px", sm: "14px" },
                     }}
                   >
-                    {moment(card.created_at).format("MMMM D, YYYY h:mm A")}
+                    {moment(card?.created_at).format("MMMM D, YYYY h:mm A")}
                   </Typography>
                 </Box>
 
@@ -226,7 +186,7 @@ const PurchaseCards = () => {
                   </Typography>
                   <Box>
                     <Button
-                      onClick={() => decrement(card.id)}
+                      onClick={() => handleQuantityChange(index, -1)}
                       variant="outlined"
                       size="small"
                     >
@@ -236,10 +196,10 @@ const PurchaseCards = () => {
                       variant="body1"
                       sx={{ display: "inline", margin: "0 1rem" }}
                     >
-                      {quantity}
+                      {card.quantity || 1}
                     </Typography>
                     <Button
-                      onClick={() => increment(card.id)}
+                      onClick={() => handleQuantityChange(index, 1)}
                       variant="outlined"
                       size="small"
                     >
@@ -262,7 +222,8 @@ const PurchaseCards = () => {
                     variant="body1"
                     sx={{ fontWeight: "bold", fontFamily: "Poppins" }}
                   >
-                    Price: ${card.price * quantity}
+                    Price: $
+                    {card.totalPrice?.toFixed(2) || (card.price * 1).toFixed(2)}
                   </Typography>
                   <Button
                     variant="contained"
@@ -271,10 +232,11 @@ const PurchaseCards = () => {
                       color: "black",
                       fontFamily: "Poppins",
                       "&:hover": { backgroundColor: "#76c300" },
+                      textTransform: "none",
                     }}
-                    onClick={handleNavigate}
+                    onClick={() => handleAddToCart(card)}
                   >
-                    Purchase Now
+                    Add To Cart
                   </Button>
                 </Box>
               </CardContent>
